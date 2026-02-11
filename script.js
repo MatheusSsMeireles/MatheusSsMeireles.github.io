@@ -1,13 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTOS ---
+    // --- ELEMENTOS GERAIS ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
+    
+    // --- ELEMENTOS DO MODAL ---
     const modal = document.getElementById('contact-modal');
     const openModalBtns = document.querySelectorAll('.open-modal-btn');
     const closeModalBtn = document.getElementById('close-modal');
+    const btnCloseFinal = document.getElementById('btn-close-final'); // Botão fechar na tela de sucesso
+    
+    // Etapas (Steps)
+    const stepInput = document.getElementById('step-input');
+    const stepConfirm = document.getElementById('step-confirm');
+    const stepSuccess = document.getElementById('step-success');
+    
+    // Formulário e Botões de Ação
     const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
+    const btnEdit = document.getElementById('btn-edit');
+    const btnConfirmSend = document.getElementById('btn-confirm-send');
 
     // --- 1. EFEITO SCROLL NO HEADER ---
     window.addEventListener('scroll', () => {
@@ -24,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         menuToggle.classList.toggle('open');
     });
 
-    // Fechar menu ao clicar em link
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -32,41 +42,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. LÓGICA DO MODAL ---
-    openModalBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Bloqueia scroll do fundo
-        });
-    });
+    // --- 3. LÓGICA DO MODAL (ABRIR/FECHAR) ---
+    
+    // Função para resetar o modal ao estado inicial
+    const resetModal = () => {
+        contactForm.reset();
+        showStep('input');
+        // Limpa validações visuais nativas se houver
+    };
+
+    const openModal = () => {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        resetModal();
+    };
 
     const closeModal = () => {
         modal.classList.remove('active');
-        document.body.style.overflow = 'auto'; // Libera scroll
-        formStatus.textContent = ''; // Limpa mensagens anteriores
+        document.body.style.overflow = 'auto';
     };
 
-    closeModalBtn.addEventListener('click', closeModal);
+    openModalBtns.forEach(btn => btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    }));
 
-    // Fecha ao clicar fora do modal
+    closeModalBtn.addEventListener('click', closeModal);
+    btnCloseFinal.addEventListener('click', closeModal); // Fecha ao clicar no botão final
+
+    // Fecha ao clicar fora
     modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
     });
 
-    // --- 4. ENVIO DO FORMULÁRIO (WEBHOOK) ---
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // Feedback visual de carregamento
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        submitBtn.textContent = 'Enviando...';
-        submitBtn.disabled = true;
-        formStatus.textContent = '';
-        formStatus.style.color = 'var(--text-muted)';
+    // --- 4. NAVEGAÇÃO ENTRE ETAPAS ---
 
-        // Coleta de Dados
+    // Função auxiliar para trocar de tela
+    const showStep = (stepName) => {
+        stepInput.classList.add('step-hidden');
+        stepConfirm.classList.add('step-hidden');
+        stepSuccess.classList.add('step-hidden');
+
+        if (stepName === 'input') stepInput.classList.remove('step-hidden');
+        if (stepName === 'confirm') stepConfirm.classList.remove('step-hidden');
+        if (stepName === 'success') stepSuccess.classList.remove('step-hidden');
+    };
+
+    // Ação 1: Usuário clica em "Revisar e Enviar" (Submit do Form)
+    // Isso valida os campos HTML5 (required) e troca para tela de confirmação
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // Impede recarregamento e envio imediato
+
+        // Coleta dados para exibir na revisão
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+        const date = document.getElementById('schedule-date').value;
+        const time = document.getElementById('schedule-time').value;
+
+        // Formata data para PT-BR (se preenchida)
+        let dateDisplay = 'Não selecionado';
+        if (date) {
+            const [year, month, day] = date.split('-');
+            dateDisplay = `${day}/${month}/${year}`;
+        }
+        
+        // Preenche o quadro de revisão
+        document.getElementById('review-name').textContent = name;
+        document.getElementById('review-email').textContent = email;
+        document.getElementById('review-phone').textContent = phone;
+        document.getElementById('review-message').textContent = message;
+        document.getElementById('review-date').textContent = dateDisplay;
+        document.getElementById('review-time').textContent = time || 'Não selecionado';
+
+        // Troca para tela de confirmação
+        showStep('confirm');
+    });
+
+    // Ação 2: Usuário clica em "Editar"
+    btnEdit.addEventListener('click', () => {
+        showStep('input'); // Volta para o form com os dados mantidos
+    });
+
+    // Ação 3: Usuário clica em "Confirmar Envio" (Envio Real para Webhook)
+    btnConfirmSend.addEventListener('click', async () => {
+        
+        // Feedback Visual (Loading)
+        const originalBtnText = btnConfirmSend.textContent;
+        btnConfirmSend.textContent = 'Enviando...';
+        btnConfirmSend.disabled = true;
+        btnEdit.disabled = true;
+
+        // Prepara Payload
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -90,23 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                formStatus.textContent = 'Recebemos sua solicitação! Entraremos em contato em breve.';
-                formStatus.style.color = '#64FFDA'; // Verde Ciano
-                contactForm.reset();
-                setTimeout(() => {
-                    closeModal();
-                    submitBtn.textContent = originalBtnText;
-                    submitBtn.disabled = false;
-                }, 3000);
+                // Sucesso: Vai para tela final
+                showStep('success');
             } else {
                 throw new Error('Erro no servidor');
             }
         } catch (error) {
             console.error('Erro:', error);
-            formStatus.textContent = 'Houve um erro ao enviar. Por favor, tente novamente ou contate-nos por telefone.';
-            formStatus.style.color = '#ff6b6b'; // Vermelho erro
-            submitBtn.textContent = originalBtnText;
-            submitBtn.disabled = false;
+            alert('Houve um erro ao enviar. Por favor, tente novamente ou entre em contato pelo telefone.');
+            // Em caso de erro, volta para a tela de revisão para tentar de novo
+            btnConfirmSend.textContent = originalBtnText;
+            btnConfirmSend.disabled = false;
+            btnEdit.disabled = false;
         }
     });
 });
