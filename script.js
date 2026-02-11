@@ -4,31 +4,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     
-    // Modal & Steps
+    // Modal
     const modal = document.getElementById('contact-modal');
     const openModalBtns = document.querySelectorAll('.open-modal-btn');
     const closeModalBtn = document.getElementById('close-modal');
     const btnCloseFinal = document.getElementById('btn-close-final');
     
+    // Etapas (Divs)
     const stepInput = document.getElementById('step-input');
     const stepConfirm = document.getElementById('step-confirm');
     const stepSuccess = document.getElementById('step-success');
     
-    // Form & Buttons
+    // Formulário e Botões
     const contactForm = document.getElementById('contact-form');
     const btnEdit = document.getElementById('btn-edit');
     const btnConfirmSend = document.getElementById('btn-confirm-send');
 
-    // --- 1. EFEITO SCROLL NO HEADER ---
+    // --- SCROLL HEADER ---
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
     });
 
-    // --- 2. MENU MOBILE ---
+    // --- MENU MOBILE ---
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuToggle.classList.toggle('open');
@@ -41,16 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. LÓGICA DO MODAL (STEP BY STEP) ---
-
-    // Função Robusta para trocar de tela
+    // --- FUNÇÕES DE MODAL ---
+    
+    // Função para mostrar apenas a etapa desejada
     const showStep = (stepName) => {
-        // Esconde TODOS primeiro via JS direto
+        // Esconde tudo primeiro
         stepInput.style.display = 'none';
         stepConfirm.style.display = 'none';
         stepSuccess.style.display = 'none';
 
-        // Mostra apenas o solicitado
+        // Mostra a específica
         if (stepName === 'input') stepInput.style.display = 'block';
         if (stepName === 'confirm') stepConfirm.style.display = 'block';
         if (stepName === 'success') stepSuccess.style.display = 'block';
@@ -59,8 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const openModal = () => {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        contactForm.reset(); // Limpa form anterior
-        showStep('input');   // Garante que comece no passo 1
+        contactForm.reset(); 
+        showStep('input'); // Sempre começa no input limpo
+        
+        // Reseta o botão de confirmar caso tenha ficado como "Enviando..."
+        btnConfirmSend.textContent = 'Confirmar';
+        btnConfirmSend.disabled = false;
+        btnEdit.disabled = false;
     };
 
     const closeModal = () => {
@@ -79,13 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) closeModal();
     });
 
-    // --- 4. FLUXO DE ENVIO ---
+    // --- FLUXO DE ETAPAS ---
 
-    // Passo 1 -> Passo 2 (Revisão)
+    // 1. DO INPUT PARA REVISÃO (Sem enviar nada)
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Impede recarregamento
 
-        // Coleta dados
+        // Pega os valores
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
@@ -93,13 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const date = document.getElementById('schedule-date').value;
         const time = document.getElementById('schedule-time').value;
 
+        // Formata Data
         let dateDisplay = 'Não selecionado';
         if (date) {
             const [year, month, day] = date.split('-');
             dateDisplay = `${day}/${month}/${year}`;
         }
         
-        // Preenche Revisão
+        // Preenche a tela de revisão
         document.getElementById('review-name').textContent = name;
         document.getElementById('review-email').textContent = email;
         document.getElementById('review-phone').textContent = phone;
@@ -107,21 +111,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('review-date').textContent = dateDisplay;
         document.getElementById('review-time').textContent = time || 'Não selecionado';
 
+        // MUDA DE TELA INSTANTANEAMENTE
         showStep('confirm');
     });
 
-    // Voltar para Editar
+    // 2. DA REVISÃO VOLTA PARA O INPUT (Editar)
     btnEdit.addEventListener('click', () => {
         showStep('input');
     });
 
-    // Passo 2 -> Passo 3 (Envio Real)
+    // 3. CONFIRMAR ENVIO (Aqui sim envia para o Webhook)
     btnConfirmSend.addEventListener('click', async () => {
+        
+        // Muda estado do botão apenas agora
         const originalText = btnConfirmSend.textContent;
         btnConfirmSend.textContent = 'Enviando...';
         btnConfirmSend.disabled = true;
-        btnEdit.disabled = true;
+        btnEdit.disabled = true; // Trava o editar também
 
+        // Prepara dados
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -142,15 +150,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                showStep('success'); // Sucesso
+                showStep('success'); // Sucesso!
             } else {
-                throw new Error('Erro servidor');
+                throw new Error('Erro no servidor');
             }
         } catch (error) {
-            alert('Erro ao enviar. Tente novamente.');
-            console.error(error);
-        } finally {
-            // Reseta botões caso o usuário feche e abra de novo ou dê erro
+            console.error('Erro:', error);
+            alert('Erro ao conectar. Tente novamente.');
+            
+            // Se der erro, volta o botão ao normal para tentar de novo
             btnConfirmSend.textContent = originalText;
             btnConfirmSend.disabled = false;
             btnEdit.disabled = false;
