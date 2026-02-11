@@ -27,7 +27,6 @@ body {
 /* --- Tipografia & Utilitários --- */
 h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; color: var(--white); }
 a { text-decoration: none; color: inherit; transition: var(--transition); }
-.text-cyan { color: var(--cyan); }
 
 .btn-primary {
     background: transparent;
@@ -42,13 +41,14 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: var(--transition);
+    text-align: center;
 }
 .btn-primary:hover {
     background: var(--cyan-dim);
     box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
 }
 
-/* Botão Secundário (Editar) */
+/* Botão Secundário (Editar) - Ajuste de Largura */
 .btn-secondary {
     background: transparent;
     border: 1px solid var(--text-muted);
@@ -60,28 +60,29 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: var(--transition);
+    text-align: center;
 }
 .btn-secondary:hover {
     border-color: var(--white);
     color: var(--white);
 }
 
-/* --- Header & Navegação --- */
+/* Full Width Button Helper */
+.full-width { width: 100%; margin-top: 15px; }
+
+/* --- Header --- */
 header {
     position: fixed; top: 0; width: 100%; height: 80px;
     display: flex; align-items: center; z-index: 1000;
-    background: rgba(10, 25, 47, 0.85);
+    background: rgba(10, 25, 47, 0.9);
     backdrop-filter: blur(10px);
-    transition: var(--transition);
     border-bottom: 1px solid rgba(100, 255, 218, 0.05);
 }
 header.scrolled { height: 70px; box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7); }
 
 nav.container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-
 .logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--cyan); }
 .logo img { height: 40px; width: auto; object-fit: contain; }
-
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a:hover { color: var(--cyan); }
 
@@ -91,7 +92,7 @@ nav.container { display: flex; justify-content: space-between; align-items: cent
 .mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
 .mobile-menu-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
-/* --- Hero Section --- */
+/* --- Hero --- */
 #hero {
     min-height: 100vh;
     display: flex; align-items: center;
@@ -105,16 +106,14 @@ nav.container { display: flex; justify-content: space-between; align-items: cent
     position: relative;
     padding-top: 80px;
 }
-
 .hero-content { max-width: 650px; position: relative; z-index: 2; }
 .hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 24px; }
 .hero-content p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 540px; }
 
-/* --- Serviços --- */
+/* --- Services --- */
 #services { padding: 100px 0; background: var(--navy); }
 .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; }
 .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-
 .service-card {
     background: var(--navy-light); padding: 40px; border-radius: 6px;
     border: 1px solid transparent; transition: var(--transition);
@@ -128,7 +127,7 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
 .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
 .copyright { margin-top: 40px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
 
-/* --- MODAL AVANÇADO --- */
+/* --- MODAL --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(2, 12, 27, 0.95); backdrop-filter: blur(5px);
@@ -144,15 +143,14 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
     max-height: 90vh; overflow-y: auto;
 }
 
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--white); transition: var(--transition); }
-.close-modal:hover { color: var(--cyan); }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--white); }
 
 .modal-title { margin-bottom: 20px; text-align: center; color: var(--cyan); font-size: 1.4rem; }
 .sub-title { color: var(--cyan); margin-bottom: 15px; font-size: 1rem; }
 .divider { border-top: 1px solid var(--text-muted); margin: 25px 0; opacity: 0.3; }
 .divider-small { border-top: 1px dashed var(--text-muted); margin: 15px 0; opacity: 0.3; }
 
-/* Formulário e Inputs */
+/* Form inputs */
 .form-group { margin-bottom: 15px; }
 .form-group label { display: block; margin-bottom: 6px; color: var(--white); font-size: 0.9rem; }
 .form-input {
@@ -163,15 +161,11 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
 .form-input:focus { border-color: var(--cyan); }
 ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-/* Layout Grid para inputs de data/hora */
 .row-inputs { display: flex; gap: 15px; }
 .half { flex: 1; }
-.full-width { width: 100%; margin-top: 10px; }
 
-/* ESTILOS DE ETAPAS (REVIEW & SUCCESS) */
-.step-hidden { display: none; }
+/* Review Box */
 .step-desc { color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem; }
-
 .review-box {
     background: rgba(2, 12, 27, 0.5);
     padding: 20px; border-radius: 4px; border-left: 3px solid var(--text-muted);
@@ -180,11 +174,17 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
 .review-item { margin-bottom: 10px; color: var(--white); }
 .review-item strong { color: var(--cyan); font-weight: 500; margin-right: 5px; }
 .highlight-text { color: var(--white); font-weight: 600; }
-
-.action-buttons { display: flex; gap: 15px; justify-content: space-between; }
-.action-buttons button { flex: 1; }
-
 .success-icon { font-size: 4rem; margin-bottom: 15px; }
+
+/* Ação Botões na Revisão */
+.action-buttons { 
+    display: flex; 
+    gap: 15px; 
+    justify-content: space-between; 
+}
+.action-buttons button { 
+    flex: 1; /* Força os botões a terem a mesma largura */
+}
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -197,11 +197,8 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
     .mobile-menu-btn { display: flex; }
     
     #hero {
-        background-position: center bottom;
-        background-size: 80%;
-        background-image: 
-            linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.9)),
-            url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
+        background-position: center bottom; background-size: 80%;
+        background-image: linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.9)), url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
         text-align: center;
     }
     .hero-content h1 { font-size: 2.5rem; }
