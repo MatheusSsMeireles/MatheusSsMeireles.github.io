@@ -132,9 +132,9 @@
                 </form>
             </div>
 
-            <div id="step-confirm" class="step-hidden">
+            <div id="step-confirm" style="display: none;">
                 <h3 class="modal-title">Confirme seus Dados</h3>
-                <p class="step-desc">Por favor, verifique se as informações abaixo estão corretas antes de enviar.</p>
+                <p class="step-desc">Verifique se as informações abaixo estão corretas antes de enviar.</p>
                 
                 <div class="review-box">
                     <div class="review-item"><strong>Nome:</strong> <span id="review-name"></span></div>
@@ -142,7 +142,7 @@
                     <div class="review-item"><strong>Telefone:</strong> <span id="review-phone"></span></div>
                     <div class="review-item"><strong>Mensagem:</strong> <br><span id="review-message" style="font-style: italic; color: #ccc;"></span></div>
                     <div class="divider-small"></div>
-                    <div class="review-item"><strong>Data Agendada:</strong> <span id="review-date" class="highlight-text"></span></div>
+                    <div class="review-item"><strong>Data:</strong> <span id="review-date" class="highlight-text"></span></div>
                     <div class="review-item"><strong>Horário:</strong> <span id="review-time" class="highlight-text"></span></div>
                 </div>
 
@@ -152,14 +152,14 @@
                 </div>
             </div>
 
-            <div id="step-success" class="step-hidden" style="text-align: center; padding: 20px 0;">
+            <div id="step-success" style="display: none; text-align: center; padding: 20px 0;">
                 <div class="success-icon">✅</div>
                 <h3 class="modal-title" style="color: var(--cyan);">Solicitação Recebida!</h3>
                 <p style="color: var(--white); margin-bottom: 20px;">
                     Seus dados foram enviados com sucesso para nossa equipe segura.
                 </p>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">
-                    Em instantes, um de nossos consultores entrará em contato via <strong>WhatsApp</strong> ou E-mail para confirmar os detalhes.
+                    Em instantes, um de nossos consultores entrará em contato para confirmar os detalhes.
                 </p>
                 <button id="btn-close-final" class="btn-primary" style="margin-top: 30px;">Fechar</button>
             </div>
