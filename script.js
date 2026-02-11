@@ -1,21 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTOS GERAIS ---
+    // --- ELEMENTOS ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     
-    // --- ELEMENTOS DO MODAL ---
+    // Modal & Steps
     const modal = document.getElementById('contact-modal');
     const openModalBtns = document.querySelectorAll('.open-modal-btn');
     const closeModalBtn = document.getElementById('close-modal');
-    const btnCloseFinal = document.getElementById('btn-close-final'); // Botão fechar na tela de sucesso
+    const btnCloseFinal = document.getElementById('btn-close-final');
     
-    // Etapas (Steps)
     const stepInput = document.getElementById('step-input');
     const stepConfirm = document.getElementById('step-confirm');
     const stepSuccess = document.getElementById('step-success');
     
-    // Formulário e Botões de Ação
+    // Form & Buttons
     const contactForm = document.getElementById('contact-form');
     const btnEdit = document.getElementById('btn-edit');
     const btnConfirmSend = document.getElementById('btn-confirm-send');
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navMenu.classList.toggle('active');
         menuToggle.classList.toggle('open');
     });
-
+    
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -42,19 +41,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. LÓGICA DO MODAL (ABRIR/FECHAR) ---
-    
-    // Função para resetar o modal ao estado inicial
-    const resetModal = () => {
-        contactForm.reset();
-        showStep('input');
-        // Limpa validações visuais nativas se houver
+    // --- 3. LÓGICA DO MODAL (STEP BY STEP) ---
+
+    // Função Robusta para trocar de tela
+    const showStep = (stepName) => {
+        // Esconde TODOS primeiro via JS direto
+        stepInput.style.display = 'none';
+        stepConfirm.style.display = 'none';
+        stepSuccess.style.display = 'none';
+
+        // Mostra apenas o solicitado
+        if (stepName === 'input') stepInput.style.display = 'block';
+        if (stepName === 'confirm') stepConfirm.style.display = 'block';
+        if (stepName === 'success') stepSuccess.style.display = 'block';
     };
 
     const openModal = () => {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        resetModal();
+        contactForm.reset(); // Limpa form anterior
+        showStep('input');   // Garante que comece no passo 1
     };
 
     const closeModal = () => {
@@ -68,32 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
 
     closeModalBtn.addEventListener('click', closeModal);
-    btnCloseFinal.addEventListener('click', closeModal); // Fecha ao clicar no botão final
-
-    // Fecha ao clicar fora
+    btnCloseFinal.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
     });
 
-    // --- 4. NAVEGAÇÃO ENTRE ETAPAS ---
+    // --- 4. FLUXO DE ENVIO ---
 
-    // Função auxiliar para trocar de tela
-    const showStep = (stepName) => {
-        stepInput.classList.add('step-hidden');
-        stepConfirm.classList.add('step-hidden');
-        stepSuccess.classList.add('step-hidden');
-
-        if (stepName === 'input') stepInput.classList.remove('step-hidden');
-        if (stepName === 'confirm') stepConfirm.classList.remove('step-hidden');
-        if (stepName === 'success') stepSuccess.classList.remove('step-hidden');
-    };
-
-    // Ação 1: Usuário clica em "Revisar e Enviar" (Submit do Form)
-    // Isso valida os campos HTML5 (required) e troca para tela de confirmação
+    // Passo 1 -> Passo 2 (Revisão)
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Impede recarregamento e envio imediato
+        e.preventDefault();
 
-        // Coleta dados para exibir na revisão
+        // Coleta dados
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
@@ -101,14 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const date = document.getElementById('schedule-date').value;
         const time = document.getElementById('schedule-time').value;
 
-        // Formata data para PT-BR (se preenchida)
         let dateDisplay = 'Não selecionado';
         if (date) {
             const [year, month, day] = date.split('-');
             dateDisplay = `${day}/${month}/${year}`;
         }
         
-        // Preenche o quadro de revisão
+        // Preenche Revisão
         document.getElementById('review-name').textContent = name;
         document.getElementById('review-email').textContent = email;
         document.getElementById('review-phone').textContent = phone;
@@ -116,25 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('review-date').textContent = dateDisplay;
         document.getElementById('review-time').textContent = time || 'Não selecionado';
 
-        // Troca para tela de confirmação
         showStep('confirm');
     });
 
-    // Ação 2: Usuário clica em "Editar"
+    // Voltar para Editar
     btnEdit.addEventListener('click', () => {
-        showStep('input'); // Volta para o form com os dados mantidos
+        showStep('input');
     });
 
-    // Ação 3: Usuário clica em "Confirmar Envio" (Envio Real para Webhook)
+    // Passo 2 -> Passo 3 (Envio Real)
     btnConfirmSend.addEventListener('click', async () => {
-        
-        // Feedback Visual (Loading)
-        const originalBtnText = btnConfirmSend.textContent;
+        const originalText = btnConfirmSend.textContent;
         btnConfirmSend.textContent = 'Enviando...';
         btnConfirmSend.disabled = true;
         btnEdit.disabled = true;
 
-        // Prepara Payload
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -150,24 +137,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(webhookUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
 
             if (response.ok) {
-                // Sucesso: Vai para tela final
-                showStep('success');
+                showStep('success'); // Sucesso
             } else {
-                throw new Error('Erro no servidor');
+                throw new Error('Erro servidor');
             }
         } catch (error) {
-            console.error('Erro:', error);
-            alert('Houve um erro ao enviar. Por favor, tente novamente ou entre em contato pelo telefone.');
-            // Em caso de erro, volta para a tela de revisão para tentar de novo
-            btnConfirmSend.textContent = originalBtnText;
+            alert('Erro ao enviar. Tente novamente.');
+            console.error(error);
+        } finally {
+            // Reseta botões caso o usuário feche e abra de novo ou dê erro
+            btnConfirmSend.textContent = originalText;
             btnConfirmSend.disabled = false;
             btnEdit.disabled = false;
         }
