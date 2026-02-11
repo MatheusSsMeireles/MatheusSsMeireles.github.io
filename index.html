@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Meu Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexSec | Segurança Jurídica e Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Site funcionando 🚀</h1>
+
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">LexSec</a>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#about-brief">Sobre</a></li>
+                <li><a href="#" class="btn-primary">Contato</a></li>
+            </ul>
+            <div class="mobile-menu-btn" id="menu-toggle">☰</div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Segurança Jurídica para sua Infraestrutura Digital</h1>
+                    <p>Unimos a proteção da Lei com a robustez da Tecnologia da Informação para blindar o seu negócio no cenário cibernético atual.</p>
+                    <a href="#services" class="btn-primary">Agendar Consultoria</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="container">
+            <h2 class="section-title">Nossas Especialidades</h2>
+            <div class="services-grid">
+                <article class="service-card">
+                    <div class="service-icon">🛡️</div>
+                    <h3>Segurança de Infraestrutura & TI</h3>
+                    <p>Implementação de protocolos de defesa de rede e proteção de ativos críticos.</p>
+                </article>
+                <article class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Manutenção Preventiva & Suporte</h3>
+                    <p>Garantia de disponibilidade e performance contínua do seu parque tecnológico.</p>
+                </article>
+                <article class="service-card">
+                    <div class="service-icon">⚖️</div>
+                    <h3>DPO as a Service & Compliance</h3>
+                    <p>Gestão completa da privacidade de dados conforme a LGPD e normas internacionais.</p>
+                </article>
+                <article class="service-card">
+                    <div class="service-icon">📑</div>
+                    <h3>Direito Digital & Legislação Cyber</h3>
+                    <p>Consultoria jurídica especializada em contratos tecnológicos e crimes digitais.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="about-brief" class="container" style="padding: 80px 0; text-align: center; border-top: 1px solid var(--secondary-slate);">
+            <h2 style="margin-bottom: 20px;">Por que a LexSec?</h2>
+            <p style="max-width: 800px; margin: 0 auto; color: var(--text-muted); font-size: 1.1rem;">
+                Diferente de consultorias comuns, a LexSec nasceu da fusão entre a Engenharia de Sistemas e o Direito. 
+                Entendemos que a segurança não é apenas um firewall, mas um ecossistema legal e técnico integrado.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-links">
+                    <h4>LexSec</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Protegendo o presente, garantindo o futuro digital.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navegação</h4>
+                    <a href="#hero">Home</a>
+                    <a href="#services">Serviços</a>
+                    <a href="#about-brief">Sobre</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Jurídico</h4>
+                    <a href="privacy.html">Política de Privacidade</a>
+                    <a href="terms.html">Termos de Uso</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LexSec - Segurança e Direito Digital. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
