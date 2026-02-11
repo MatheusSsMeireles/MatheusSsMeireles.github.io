@@ -1,252 +1,193 @@
-/* --- Variáveis de Design --- */
 :root {
-    --primary-navy: #0A192F;
-    --secondary-slate: #112240;
-    --accent-cyan: #64FFDA;
-    --dark-charcoal: #020C1B;
-    --text-light: #E6F1FF;
+    --navy: #0A192F;
+    --navy-light: #112240;
+    --cyan: #64FFDA;
+    --charcoal: #020C1B;
+    --white: #E6F1FF;
     --text-muted: #8892B0;
-    --white: #FFFFFF;
     --font-serif: 'Playfair Display', serif;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --transition: all 0.3s ease;
+    --font-sans: 'Inter', sans-serif;
+    --transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-/* --- Reset & Base --- */
+/* Reset & Mobile Adaptability */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
 body {
-    background-color: var(--primary-navy);
-    color: var(--text-light);
+    background-color: var(--navy);
+    color: var(--white);
     font-family: var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
-h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 700;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition);
-}
-
-ul {
-    list-style: none;
-}
-
-/* --- Layout Utilitário --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-.btn-primary {
-    background-color: transparent;
-    border: 1px solid var(--accent-cyan);
-    color: var(--accent-cyan);
-    padding: 12px 28px;
-    border-radius: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-}
-
-.btn-primary:hover {
-    background-color: rgba(100, 255, 218, 0.1);
-    box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
-}
-
-/* --- Header & Navegação --- */
+/* Header & Nav */
 header {
     position: fixed;
-    top: 0;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    z-index: 1000;
-    transition: var(--transition);
+    top: 0; width: 100%; height: 80px;
+    display: flex; align-items: center;
+    z-index: 1000; transition: var(--transition);
 }
 
 header.scrolled {
-    background-color: rgba(10, 25, 47, 0.95);
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(10px);
     height: 70px;
     box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
-    backdrop-filter: blur(10px);
 }
 
 nav.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
 }
 
 .logo {
-    font-family: var(--font-serif);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--accent-cyan);
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--cyan);
+    text-decoration: none;
 }
+
+.logo img { height: 35px; width: auto; }
 
 .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+    display: flex; gap: 32px; align-items: center;
 }
 
-.nav-links a:hover {
-    color: var(--accent-cyan);
+.nav-links a {
+    text-decoration: none; color: var(--white); font-size: 0.9rem; font-weight: 500;
 }
 
+.nav-links a:hover { color: var(--cyan); }
+
+.btn-primary {
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 10px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background: rgba(100, 255, 218, 0.1);
+    box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
+}
+
+/* Mobile Menu Button */
 .mobile-menu-btn {
-    display: none;
-    font-size: 1.5rem;
-    color: var(--accent-cyan);
-    cursor: pointer;
+    display: none; cursor: pointer;
+    flex-direction: column; gap: 6px;
 }
 
-/* --- Hero Section --- */
+.mobile-menu-btn span {
+    width: 30px; height: 2px; background-color: var(--cyan);
+    transition: var(--transition);
+}
+
+/* Hero Section with Watermark */
 #hero {
     height: 100vh;
-    display: flex;
-    align-items: center;
-    background: radial-gradient(circle at center, var(--secondary-slate) 0%, var(--dark-charcoal) 100%);
+    display: flex; align-items: center;
+    background-color: var(--charcoal);
+    background-image: 
+        linear-gradient(90deg, var(--charcoal) 20%, rgba(2, 12, 27, 0.7) 100%),
+        url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
+    background-size: contain;
+    background-position: right center;
+    background-repeat: no-repeat;
     position: relative;
-}
-
-#hero::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(100, 255, 218, 0.05) 1px, transparent 1px), 
-                      linear-gradient(90deg, rgba(100, 255, 218, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-}
-
-.hero-content {
-    max-width: 700px;
-    position: relative;
-    z-index: 1;
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 8vw, 3.5rem);
     line-height: 1.1;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .hero-content p {
-    font-size: 1.2rem;
     color: var(--text-muted);
-    margin-bottom: 30px;
+    max-width: 500px;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
 }
 
-/* --- Serviços (Grid) --- */
-#services {
-    padding: 100px 0;
-}
-
+/* Services */
+#services { padding: 100px 0; }
 .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 60px;
+    text-align: center; font-size: 2.5rem; margin-bottom: 60px;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 .service-card {
-    background-color: var(--secondary-slate);
-    padding: 40px 30px;
+    background: var(--navy-light);
+    padding: 40px;
     border-radius: 4px;
-    border-bottom: 3px solid transparent;
     transition: var(--transition);
+    border: 1px solid transparent;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--accent-cyan);
+    transform: translateY(-8px);
+    border-color: var(--cyan);
 }
 
-.service-icon {
-    font-size: 2.5rem;
-    color: var(--accent-cyan);
-    margin-bottom: 20px;
-}
+.service-card .icon { font-size: 2rem; margin-bottom: 20px; }
 
-.service-card h3 {
-    margin-bottom: 15px;
-    font-family: var(--font-sans);
-}
-
-/* --- Páginas Jurídicas --- */
+/* Legal Pages */
 .legal-container {
-    margin-top: 120px;
-    margin-bottom: 80px;
-    background-color: var(--secondary-slate);
-    padding: 60px;
-    border-radius: 8px;
-    border-left: 4px solid var(--accent-cyan);
+    padding-top: 140px; padding-bottom: 80px; max-width: 800px;
 }
 
-.legal-content h1 { margin-bottom: 30px; border-bottom: 1px solid var(--accent-cyan); padding-bottom: 10px; }
-.legal-content h2 { margin: 30px 0 15px; font-size: 1.5rem; }
-.legal-content p { margin-bottom: 15px; color: var(--text-muted); }
+.legal-content h2 { margin: 40px 0 20px; color: var(--cyan); font-size: 1.5rem; }
+.legal-content p { color: var(--text-muted); margin-bottom: 20px; }
 
-/* --- Footer --- */
-footer {
-    padding: 60px 0 30px;
-    background-color: var(--dark-charcoal);
-    border-top: 1px solid var(--secondary-slate);
-}
+/* Footer */
+footer { padding: 80px 0 40px; background: var(--charcoal); }
+.footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+.copyright { text-align: center; margin-top: 60px; color: var(--text-muted); font-size: 0.8rem; }
 
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-.footer-links h4 {
-    color: var(--accent-cyan);
-    margin-bottom: 20px;
-    font-family: var(--font-sans);
-}
-
-.footer-links a {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--text-muted);
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--text-muted);
-    font-size: 0.8rem;
-}
-
-/* --- Responsividade --- */
+/* Responsive Adaptability */
 @media (max-width: 768px) {
+    .mobile-menu-btn { display: flex; }
+    
     .nav-links {
-        display: none; /* Seria controlado pelo JS */
+        position: fixed; top: 0; right: -100%;
+        width: 70%; height: 100vh;
+        background: var(--navy-light);
+        flex-direction: column; justify-content: center;
+        transition: 0.4s;
     }
-    .mobile-menu-btn { display: block; }
-    .hero-content h1 { font-size: 2.5rem; }
-    .legal-container { padding: 30px; }
+
+    .nav-links.active { right: 0; }
+
+    #hero {
+        background-position: center;
+        background-image: 
+            linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.9)),
+            url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
+        text-align: center;
+    }
+
+    .hero-content p { margin: 0 auto 40px; }
 }
