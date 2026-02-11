@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LexSec | Segurança Jurídica e Tecnologia</title>
+    <title>LexSec | Segurança Jurídica e Digital</title>
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,12 +20,10 @@
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#about-brief">Sobre</a></li>
-                <li><a href="#" class="btn-primary">Contato</a></li>
+                <li><button class="btn-primary open-modal-btn">Contato</button></li>
             </ul>
             <div class="mobile-menu-btn" id="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </nav>
     </header>
@@ -36,9 +34,7 @@
                 <div class="hero-content">
                     <h1>Segurança Jurídica para sua Infraestrutura Digital</h1>
                     <p>Unimos a conformidade da Lei com a robustez da Tecnologia da Informação para blindar o seu negócio.</p>
-                    <div class="hero-btns">
-                        <a href="#services" class="btn-primary">Agendar Consultoria</a>
-                    </div>
+                    <button class="btn-primary open-modal-btn">Agendar Consultoria</button>
                 </div>
             </div>
         </section>
@@ -48,55 +44,95 @@
                 <h2 class="section-title">Nossos Pilares</h2>
                 <div class="services-grid">
                     <div class="service-card">
-                        <div class="icon">🛡️</div>
+                        <div class="service-icon">🛡️</div>
                         <h3>Segurança de Infraestrutura</h3>
-                        <p>Proteção de redes e servidores com as melhores práticas de mercado.</p>
+                        <p>Proteção de redes, servidores e endpoints com monitoramento ativo.</p>
                     </div>
                     <div class="service-card">
-                        <div class="icon">🔧</div>
-                        <h3>Manutenção & TI</h3>
-                        <p>Suporte técnico especializado para manter sua operação sempre ativa.</p>
+                        <div class="service-icon">⚖️</div>
+                        <h3>DPO as a Service</h3>
+                        <p>Encarregado de dados externo para garantir conformidade com a LGPD.</p>
                     </div>
                     <div class="service-card">
-                        <div class="icon">⚖️</div>
-                        <h3>DPO & Compliance</h3>
-                        <p>Gestão de privacidade e adequação total à LGPD.</p>
+                        <div class="service-icon">💻</div>
+                        <h3>Manutenção de TI</h3>
+                        <p>Suporte técnico especializado para alta disponibilidade.</p>
                     </div>
                     <div class="service-card">
-                        <div class="icon">💻</div>
+                        <div class="service-icon">📑</div>
                         <h3>Direito Digital</h3>
-                        <p>Consultoria jurídica em crimes cibernéticos e legislação tecnológica.</p>
+                        <p>Consultoria jurídica especializada em crimes cibernéticos e contratos.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about-brief" class="container">
-            <div class="about-content">
-                <h2>A Intersecção entre Lei e Bit</h2>
-                <p>A LexSec não é apenas uma empresa de TI, nem apenas um escritório de advocacia. Somos a fusão necessária para a era dos dados.</p>
-            </div>
+        <section id="about-brief" class="container" style="padding: 100px 0; text-align: center;">
+            <h2 class="section-title">A Dualidade LexSec</h2>
+            <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto;">
+                Não somos apenas técnicos, nem apenas advogados. Somos a intersecção necessária. 
+                Entregamos a <strong>segurança técnica</strong> que seu TI precisa com a <strong>validade jurídica</strong> que sua empresa exige.
+            </p>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec" height="40">
-                    <p>Segurança e Conformidade de ponta a ponta.</p>
-                </div>
-                <div class="footer-nav">
-                    <h4>Links Rápidos</h4>
-                    <a href="privacy.html">Privacidade</a>
-                    <a href="terms.html">Termos de Uso</a>
-                </div>
+            <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec" style="height: 30px; opacity: 0.8;">
+            <div class="footer-links">
+                <a href="privacy.html">Política de Privacidade</a>
+                <a href="terms.html">Termos de Uso</a>
             </div>
-            <div class="copyright">
-                &copy; 2026 LexSec. Todos os direitos reservados.
-            </div>
+            <p class="copyright">&copy; 2026 LexSec. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h3 class="modal-title">Fale com a LexSec</h3>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Nome Completo *</label>
+                    <input type="text" id="name" name="name" class="form-input" required placeholder="Seu nome">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail Corporativo *</label>
+                    <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone / WhatsApp *</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Como podemos ajudar? *</label>
+                    <textarea id="message" name="message" class="form-input" rows="3" required placeholder="Descreva brevemente sua necessidade..."></textarea>
+                </div>
+
+                <div style="border-top: 1px solid var(--text-muted); margin: 20px 0;"></div>
+                <h4 style="color: var(--cyan); margin-bottom: 15px; font-size: 1rem;">Agendar Reunião (Opcional)</h4>
+
+                <div class="form-group">
+                    <label for="schedule-date">Data Preferida</label>
+                    <input type="date" id="schedule-date" name="schedule_date" class="form-input">
+                    <small>Selecione um dia útil (Segunda a Sexta).</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="schedule-time">Horário Preferido</label>
+                    <input type="time" id="schedule-time" name="schedule_time" class="form-input">
+                    <small>Atendimento entre 08:00 e 18:00.</small>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Enviar Solicitação</button>
+                <p id="form-status" style="margin-top: 10px; text-align: center; font-size: 0.9rem;"></p>
+            </form>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
