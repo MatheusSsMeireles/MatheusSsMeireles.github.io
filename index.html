@@ -90,47 +90,80 @@
     <div class="modal-overlay" id="contact-modal">
         <div class="modal-content">
             <span class="close-modal" id="close-modal">&times;</span>
-            <h3 class="modal-title">Fale com a LexSec</h3>
             
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="name">Nome Completo *</label>
-                    <input type="text" id="name" name="name" class="form-input" required placeholder="Seu nome">
-                </div>
+            <div id="step-input">
+                <h3 class="modal-title">Fale com a LexSec</h3>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nome Completo *</label>
+                        <input type="text" id="name" name="name" class="form-input" required placeholder="Seu nome">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo *</label>
+                        <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="phone">Telefone / WhatsApp *</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="message">Como podemos ajudar? *</label>
+                        <textarea id="message" name="message" class="form-input" rows="3" required placeholder="Descreva brevemente sua necessidade..."></textarea>
+                    </div>
+    
+                    <div class="divider"></div>
+                    <h4 class="sub-title">Agendar Reunião (Opcional)</h4>
+    
+                    <div class="row-inputs">
+                        <div class="form-group half">
+                            <label for="schedule-date">Data</label>
+                            <input type="date" id="schedule-date" name="schedule_date" class="form-input">
+                        </div>
+                        <div class="form-group half">
+                            <label for="schedule-time">Horário</label>
+                            <input type="time" id="schedule-time" name="schedule_time" class="form-input">
+                        </div>
+                    </div>
+    
+                    <button type="submit" class="btn-primary full-width">Revisar e Enviar</button>
+                </form>
+            </div>
+
+            <div id="step-confirm" class="step-hidden">
+                <h3 class="modal-title">Confirme seus Dados</h3>
+                <p class="step-desc">Por favor, verifique se as informações abaixo estão corretas antes de enviar.</p>
                 
-                <div class="form-group">
-                    <label for="email">E-mail Corporativo *</label>
-                    <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
+                <div class="review-box">
+                    <div class="review-item"><strong>Nome:</strong> <span id="review-name"></span></div>
+                    <div class="review-item"><strong>E-mail:</strong> <span id="review-email"></span></div>
+                    <div class="review-item"><strong>Telefone:</strong> <span id="review-phone"></span></div>
+                    <div class="review-item"><strong>Mensagem:</strong> <br><span id="review-message" style="font-style: italic; color: #ccc;"></span></div>
+                    <div class="divider-small"></div>
+                    <div class="review-item"><strong>Data Agendada:</strong> <span id="review-date" class="highlight-text"></span></div>
+                    <div class="review-item"><strong>Horário:</strong> <span id="review-time" class="highlight-text"></span></div>
                 </div>
 
-                <div class="form-group">
-                    <label for="phone">Telefone / WhatsApp *</label>
-                    <input type="tel" id="phone" name="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
+                <div class="action-buttons">
+                    <button id="btn-edit" class="btn-secondary">Editar</button>
+                    <button id="btn-confirm-send" class="btn-primary">Confirmar Envio</button>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="message">Como podemos ajudar? *</label>
-                    <textarea id="message" name="message" class="form-input" rows="3" required placeholder="Descreva brevemente sua necessidade..."></textarea>
-                </div>
+            <div id="step-success" class="step-hidden" style="text-align: center; padding: 20px 0;">
+                <div class="success-icon">✅</div>
+                <h3 class="modal-title" style="color: var(--cyan);">Solicitação Recebida!</h3>
+                <p style="color: var(--white); margin-bottom: 20px;">
+                    Seus dados foram enviados com sucesso para nossa equipe segura.
+                </p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Em instantes, um de nossos consultores entrará em contato via <strong>WhatsApp</strong> ou E-mail para confirmar os detalhes.
+                </p>
+                <button id="btn-close-final" class="btn-primary" style="margin-top: 30px;">Fechar</button>
+            </div>
 
-                <div style="border-top: 1px solid var(--text-muted); margin: 20px 0;"></div>
-                <h4 style="color: var(--cyan); margin-bottom: 15px; font-size: 1rem;">Agendar Reunião (Opcional)</h4>
-
-                <div class="form-group">
-                    <label for="schedule-date">Data Preferida</label>
-                    <input type="date" id="schedule-date" name="schedule_date" class="form-input">
-                    <small>Selecione um dia útil (Segunda a Sexta).</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="schedule-time">Horário Preferido</label>
-                    <input type="time" id="schedule-time" name="schedule_time" class="form-input">
-                    <small>Atendimento entre 08:00 e 18:00.</small>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Enviar Solicitação</button>
-                <p id="form-status" style="margin-top: 10px; text-align: center; font-size: 0.9rem;"></p>
-            </form>
         </div>
     </div>
 
