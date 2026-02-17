@@ -1,89 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- LÓGICA DE CALENDÁRIO E HORÁRIOS (24H RIGOROSO) ---
+    // --- 1. LÓGICA DE CALENDÁRIO COM FLATPICKR (24H + FINAIS DE SEMANA) ---
     const dateInput = document.getElementById('schedule-date');
     const timeSelect = document.getElementById('schedule-time');
+    let fpInstance = null;
 
     if (dateInput && timeSelect) {
-        // 1. Configurar Data Mínima Visível
         const now = new Date();
-        const minValidDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Exatas 24h
+        // A data mínima permitida é EXATAMENTE 24 horas a partir de agora
+        const minValidDateTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-        // Se daqui 24h for Fim de Semana, empurra a data mínima inicial para Segunda-feira
-        if (minValidDate.getDay() === 6) { // Sábado
-            minValidDate.setDate(minValidDate.getDate() + 2);
-        } else if (minValidDate.getDay() === 0) { // Domingo
-            minValidDate.setDate(minValidDate.getDate() + 1);
-        }
-
-        const formatStringDate = (dateObj) => {
-            const year = dateObj.getFullYear();
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        };
-
-        // Aplica o bloqueio visual (cinza) para datas passadas/anteriores a 24h
-        dateInput.min = formatStringDate(minValidDate);
-
-        // 2. Evento ao escolher a data (Atualiza as horas disponíveis)
-        dateInput.addEventListener('change', (e) => {
-            if (!e.target.value) return;
-
-            const selectedDateStr = e.target.value;
-            const [year, month, day] = selectedDateStr.split('-');
-            const selectedDate = new Date(year, month - 1, day);
-            const dayOfWeek = selectedDate.getDay();
-
-            // Proteção contra cliques em finais de semana futuros
-            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                alert('Agendamentos indisponíveis aos finais de semana. Por favor, escolha um dia útil.');
-                dateInput.value = '';
-                timeSelect.value = '';
-                timeSelect.options[0].selected = true;
+        // Função para atualizar as horas baseadas na data escolhida
+        const updateTimeOptions = (selectedDate) => {
+            if (!selectedDate) {
                 timeSelect.options[0].text = "Escolha a data primeiro";
                 return;
             }
 
-            // Atualiza as opções do Select de Horas baseado nas 24h
-            const currentNow = new Date();
-            const boundaryTime = new Date(currentNow.getTime() + 24 * 60 * 60 * 1000);
-            const boundaryDateStr = formatStringDate(boundaryTime);
-
-            timeSelect.options[0].text = "Selecione o horário"; // Muda placeholder
+            timeSelect.options[0].text = "Selecione o horário";
 
             Array.from(timeSelect.options).forEach(option => {
-                if (!option.value) return; // Pula o placeholder
+                if (!option.value) return; // ignora a primeira opção (placeholder)
 
-                // Se o cliente escolheu exatamente a data limite (amanhã)
-                if (selectedDateStr === boundaryDateStr) {
-                    const optionHour = parseInt(option.value.split(':')[0], 10);
-                    const boundaryHour = boundaryTime.getHours();
-                    
-                    // Bloqueia e deixa cinza as horas que não cumprem as 24h
-                    if (optionHour <= boundaryHour) {
+                const optionHour = parseInt(option.value.split(':')[0], 10);
+
+                // Verifica se a data escolhida no calendário é a mesma data do limite de 24h
+                const isSameDay = selectedDate.getDate() === minValidDateTime.getDate() &&
+                                  selectedDate.getMonth() === minValidDateTime.getMonth() &&
+                                  selectedDate.getFullYear() === minValidDateTime.getFullYear();
+
+                if (isSameDay) {
+                    // Se for o mesmo dia limite, bloqueia horas passadas ou que não cumprem 24h
+                    if (optionHour <= minValidDateTime.getHours()) {
                         option.disabled = true;
-                        option.text = `${option.value} (Apenas em 24h)`;
+                        option.text = `${option.value} (Requer 24h)`;
                     } else {
                         option.disabled = false;
                         option.text = option.value;
                     }
                 } else {
-                    // Para qualquer data depois de amanhã, libera todos os horários
+                    // Se for qualquer dia futuro além da data limite, libera tudo
                     option.disabled = false;
                     option.text = option.value;
                 }
             });
 
-            // Se o usuário tinha selecionado uma hora que agora ficou bloqueada, limpa
+            // Se o horário que estava selecionado ficou desabilitado, limpa o campo
             if (timeSelect.options[timeSelect.selectedIndex]?.disabled) {
                 timeSelect.value = '';
-                timeSelect.options[0].selected = true;
+            }
+        };
+
+        // Inicializando o calendário profissional
+        fpInstance = flatpickr(dateInput, {
+            locale: "pt", // Idioma Português BR
+            dateFormat: "Y-m-d", // Formato interno
+            altInput: true,
+            altFormat: "d/m/Y", // Formato que o usuário vê (Ex: 18/02/2026)
+            minDate: minValidDateTime, // Bloqueia tudo antes de 24h (fica cinza inclicável)
+            disable: [
+                function(date) {
+                    // Retorna true para desabilitar Sábados (6) e Domingos (0)
+                    return (date.getDay() === 0 || date.getDay() === 6);
+                }
+            ],
+            onChange: function(selectedDates, dateStr, instance) {
+                updateTimeOptions(selectedDates[0]);
             }
         });
     }
 
-    // --- ELEMENTOS DO LAYOUT E MODAL ---
+    // --- 2. ELEMENTOS DO LAYOUT E MODAL ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
@@ -101,13 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEdit = document.getElementById('btn-edit');
     const btnConfirmSend = document.getElementById('btn-confirm-send');
 
-    // --- HEADER SCROLL ---
+    // --- 3. SCROLL E MENU MOBILE ---
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
     });
 
-    // --- MENU MOBILE ---
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuToggle.classList.toggle('open');
@@ -120,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- LÓGICA DE TRANSIÇÃO DO MODAL ---
+    // --- 4. CONTROLE DO MODAL ---
     const showStep = (stepName) => {
         if(stepInput) stepInput.style.display = 'none';
         if(stepConfirm) stepConfirm.style.display = 'none';
@@ -137,7 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'hidden';
             if(contactForm) contactForm.reset(); 
             
-            // Reseta a frase do select
+            // Reseta o calendário visual e o select
+            if(fpInstance) fpInstance.clear();
             if(timeSelect) timeSelect.options[0].text = "Escolha a data primeiro";
 
             showStep('input');
@@ -170,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- FLUXO DE ENVIO ---
+    // --- 5. FLUXO DE ENVIO: FORMULÁRIO -> REVISÃO ---
     if(contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
@@ -179,10 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const message = document.getElementById('message').value;
-            const date = document.getElementById('schedule-date').value;
+            // Flatpickr armazena o valor real no input original (escondido)
+            const date = document.getElementById('schedule-date').value; 
             const time = document.getElementById('schedule-time').value;
 
-            // Trava final simples
+            // Trava final: impede de avançar se preencheu só um dos dois
             if ((date && !time) || (!date && time)) {
                 alert("Para agendar, por favor preencha TANTO a Data quanto o Horário.");
                 return;
@@ -205,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 showStep('confirm'); 
             } else {
-                console.error("IDs de revisão não encontrados no HTML.");
+                console.error("IDs de revisão não encontrados.");
             }
         });
     }
@@ -216,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 6. ENVIO FINAL PARA WEBHOOK ---
     if(btnConfirmSend) {
         btnConfirmSend.addEventListener('click', async () => {
             const originalText = btnConfirmSend.textContent;
