@@ -119,12 +119,14 @@
     
                     <div class="row-inputs">
                         <div class="form-group half">
-                            <label for="schedule-date">Data</label>
+                            <label for="schedule-date">Data (Mín. 24h)</label>
                             <input type="date" id="schedule-date" name="schedule_date" class="form-input">
+                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Apenas dias úteis.</small>
                         </div>
                         <div class="form-group half">
                             <label for="schedule-time">Horário</label>
-                            <input type="time" id="schedule-time" name="schedule_time" class="form-input">
+                            <input type="time" id="schedule-time" name="schedule_time" class="form-input" min="08:00" max="17:00">
+                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">08h-11h ou 14h-17h.</small>
                         </div>
                     </div>
     
@@ -159,7 +161,7 @@
                     Seus dados foram enviados com sucesso para nossa equipe segura.
                 </p>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">
-                    Em instantes, um de nossos consultores entrará em contato para confirmar os detalhes.
+                    Em instantes, um de nossos consultores entrará em contato.
                 </p>
                 <button id="btn-close-final" class="btn-primary" style="margin-top: 30px;">Fechar</button>
             </div>
