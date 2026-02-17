@@ -121,11 +121,21 @@
                         <div class="form-group half">
                             <label for="schedule-date">Data (Mín. 24h)</label>
                             <input type="date" id="schedule-date" name="schedule_date" class="form-input">
-                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Apenas dias úteis.</small>
+                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Disponível apenas Seg a Sex.</small>
                         </div>
                         <div class="form-group half">
-                            <label for="schedule-time">Horário</label>
-                            <input type="time" id="schedule-time" name="schedule_time" class="form-input" min="08:00" max="17:00">
+                            <label for="schedule-time">Horário (Duração 1h)</label>
+                            <select id="schedule-time" name="schedule_time" class="form-input">
+                                <option value="" selected disabled>Escolha a data primeiro</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
                             <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">08h-11h ou 14h-17h.</small>
                         </div>
                     </div>
