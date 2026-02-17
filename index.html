@@ -6,6 +6,10 @@
     <title>LexSec | Segurança Jurídica e Digital</title>
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -120,8 +124,8 @@
                     <div class="row-inputs">
                         <div class="form-group half">
                             <label for="schedule-date">Data (Mín. 24h)</label>
-                            <input type="date" id="schedule-date" name="schedule_date" class="form-input">
-                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Disponível apenas Seg a Sex.</small>
+                            <input type="text" id="schedule-date" name="schedule_date" class="form-input" placeholder="Selecione o dia...">
+                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Apenas dias úteis.</small>
                         </div>
                         <div class="form-group half">
                             <label for="schedule-time">Horário (Duração 1h)</label>
@@ -179,6 +183,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
