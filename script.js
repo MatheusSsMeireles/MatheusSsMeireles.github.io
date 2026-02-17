@@ -1,16 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. LÓGICA DE CALENDÁRIO COM FLATPICKR (24H + FINAIS DE SEMANA) ---
+    // --- 1. LÓGICA DO CALENDÁRIO COM FLATPICKR ---
     const dateInput = document.getElementById('schedule-date');
     const timeSelect = document.getElementById('schedule-time');
     let fpInstance = null;
 
-    if (dateInput && timeSelect) {
+    if (dateInput && timeSelect && typeof flatpickr !== 'undefined') {
         const now = new Date();
-        // A data mínima permitida é EXATAMENTE 24 horas a partir de agora
+        // A data mínima é EXATAMENTE 24 horas a partir do momento atual
         const minValidDateTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-        // Função para atualizar as horas baseadas na data escolhida
+        // Se daqui a 24h cair no Fim de Semana, empurra a data mínima para Segunda
+        if (minValidDateTime.getDay() === 6) { // Sábado
+            minValidDateTime.setDate(minValidDateTime.getDate() + 2);
+        } else if (minValidDateTime.getDay() === 0) { // Domingo
+            minValidDateTime.setDate(minValidDateTime.getDate() + 1);
+        }
+
+        // Formatação YYYY-MM-DD segura para o flatpickr não confundir fusos
+        const formatStringDate = (dateObj) => {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
         const updateTimeOptions = (selectedDate) => {
             if (!selectedDate) {
                 timeSelect.options[0].text = "Escolha a data primeiro";
@@ -19,19 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             timeSelect.options[0].text = "Selecione o horário";
 
+            // Recalcula o tempo agora caso o usuário tenha deixado a tela aberta muito tempo
+            const currentBoundary = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            
             Array.from(timeSelect.options).forEach(option => {
-                if (!option.value) return; // ignora a primeira opção (placeholder)
+                if (!option.value) return; 
 
                 const optionHour = parseInt(option.value.split(':')[0], 10);
+                
+                // Verifica se a data selecionada é exatamente o dia limite de 24h
+                const isSameBoundaryDay = selectedDate.getDate() === currentBoundary.getDate() &&
+                                          selectedDate.getMonth() === currentBoundary.getMonth() &&
+                                          selectedDate.getFullYear() === currentBoundary.getFullYear();
 
-                // Verifica se a data escolhida no calendário é a mesma data do limite de 24h
-                const isSameDay = selectedDate.getDate() === minValidDateTime.getDate() &&
-                                  selectedDate.getMonth() === minValidDateTime.getMonth() &&
-                                  selectedDate.getFullYear() === minValidDateTime.getFullYear();
-
-                if (isSameDay) {
-                    // Se for o mesmo dia limite, bloqueia horas passadas ou que não cumprem 24h
-                    if (optionHour <= minValidDateTime.getHours()) {
+                if (isSameBoundaryDay) {
+                    // Bloqueia horas que não cumprem o prazo de 24h
+                    if (optionHour <= currentBoundary.getHours()) {
                         option.disabled = true;
                         option.text = `${option.value} (Requer 24h)`;
                     } else {
@@ -39,28 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         option.text = option.value;
                     }
                 } else {
-                    // Se for qualquer dia futuro além da data limite, libera tudo
+                    // Qualquer dia posterior é 100% liberado
                     option.disabled = false;
                     option.text = option.value;
                 }
             });
 
-            // Se o horário que estava selecionado ficou desabilitado, limpa o campo
             if (timeSelect.options[timeSelect.selectedIndex]?.disabled) {
                 timeSelect.value = '';
             }
         };
 
-        // Inicializando o calendário profissional
+        // Instancia o calendário profissional
         fpInstance = flatpickr(dateInput, {
-            locale: "pt", // Idioma Português BR
-            dateFormat: "Y-m-d", // Formato interno
+            locale: "pt", 
+            dateFormat: "Y-m-d", 
             altInput: true,
-            altFormat: "d/m/Y", // Formato que o usuário vê (Ex: 18/02/2026)
-            minDate: minValidDateTime, // Bloqueia tudo antes de 24h (fica cinza inclicável)
+            altFormat: "d/m/Y", 
+            minDate: formatStringDate(minValidDateTime), // Fica tudo cinza antes dessa data
             disable: [
                 function(date) {
-                    // Retorna true para desabilitar Sábados (6) e Domingos (0)
+                    // Desabilita fisicamente Sábados (6) e Domingos (0)
                     return (date.getDay() === 0 || date.getDay() === 6);
                 }
             ],
@@ -68,9 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateTimeOptions(selectedDates[0]);
             }
         });
+    } else {
+        console.error("Flatpickr não foi carregado. Verifique os links no index.html.");
     }
 
-    // --- 2. ELEMENTOS DO LAYOUT E MODAL ---
+    // --- 2. ELEMENTOS E EVENTOS DE LAYOUT ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
@@ -88,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEdit = document.getElementById('btn-edit');
     const btnConfirmSend = document.getElementById('btn-confirm-send');
 
-    // --- 3. SCROLL E MENU MOBILE ---
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
@@ -106,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 4. CONTROLE DO MODAL ---
+    // --- 3. CONTROLE DE MODAL E TRANSIÇÃO ---
     const showStep = (stepName) => {
         if(stepInput) stepInput.style.display = 'none';
         if(stepConfirm) stepConfirm.style.display = 'none';
@@ -123,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'hidden';
             if(contactForm) contactForm.reset(); 
             
-            // Reseta o calendário visual e o select
             if(fpInstance) fpInstance.clear();
             if(timeSelect) timeSelect.options[0].text = "Escolha a data primeiro";
 
@@ -157,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. FLUXO DE ENVIO: FORMULÁRIO -> REVISÃO ---
+    // --- 4. FLUXO DE REVISÃO E ENVIO ---
     if(contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
@@ -166,13 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const message = document.getElementById('message').value;
-            // Flatpickr armazena o valor real no input original (escondido)
             const date = document.getElementById('schedule-date').value; 
             const time = document.getElementById('schedule-time').value;
 
-            // Trava final: impede de avançar se preencheu só um dos dois
+            // Bloqueio final de segurança
             if ((date && !time) || (!date && time)) {
-                alert("Para agendar, por favor preencha TANTO a Data quanto o Horário.");
+                alert("Para agendar, preencha a Data e o Horário.");
                 return;
             }
 
@@ -192,8 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('review-time').textContent = time || 'Não selecionado';
                 
                 showStep('confirm'); 
-            } else {
-                console.error("IDs de revisão não encontrados.");
             }
         });
     }
@@ -204,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. ENVIO FINAL PARA WEBHOOK ---
     if(btnConfirmSend) {
         btnConfirmSend.addEventListener('click', async () => {
             const originalText = btnConfirmSend.textContent;
