@@ -1,18 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 0. BLOQUEIO DE DATA (MÍNIMO 24 HORAS) ---
+    // --- 0. BLOQUEIO VISUAL BÁSICO DE DATA ---
+    // Impede o usuário de clicar em dias no passado no calendário nativo
     const dateInput = document.getElementById('schedule-date');
     if (dateInput) {
-        // Pega a data de hoje e adiciona 1 dia (24 horas)
         const hoje = new Date();
         const amanha = new Date(hoje);
         amanha.setDate(amanha.getDate() + 1);
-
-        // Formata para o padrão HTML (AAAA-MM-DD)
         const ano = amanha.getFullYear();
         const mes = String(amanha.getMonth() + 1).padStart(2, '0');
         const dia = String(amanha.getDate()).padStart(2, '0');
-        
-        // Define a data mínima no calendário
         dateInput.min = `${ano}-${mes}-${dia}`;
     }
 
@@ -105,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. FLUXO DE ENVIO ---
+    // --- 4. FLUXO DE ENVIO E VALIDAÇÕES RIGOROSAS ---
     if(contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -117,12 +113,51 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = document.getElementById('schedule-date').value;
             const time = document.getElementById('schedule-time').value;
 
-            // Validação extra: se escolheu hora, tem que escolher data
-            if (time && !date) {
-                alert("Por favor, selecione uma data para o horário escolhido.");
-                return;
+            // VALIDAÇÕES DE DATA E HORA
+            if (date || time) {
+                // 1. Exige que ambos sejam preenchidos se um deles for preenchido
+                if (!date || !time) {
+                    alert("Por favor, preencha tanto a data quanto o horário para agendar a reunião.");
+                    return; // Bloqueia o avanço
+                }
+
+                const selectedDateTime = new Date(`${date}T${time}`);
+                const now = new Date();
+                
+                // 2. Validação de antecedência mínima de 24 horas
+                const minValidTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+                if (selectedDateTime < minValidTime) {
+                    alert("A reunião deve ser agendada com pelo menos 24 horas de antecedência.");
+                    return; // Bloqueia o avanço
+                }
+
+                // 3. Validação de Finais de Semana (Segunda a Sexta apenas)
+                const dayOfWeek = selectedDateTime.getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) { // 0 = Dom, 6 = Sáb
+                    alert("Os agendamentos estão disponíveis apenas de segunda a sexta-feira.");
+                    return; // Bloqueia o avanço
+                }
+
+                // 4. Validação de Horário Comercial (08:00 às 11:00 e 14:00 às 17:00)
+                const hour = parseInt(time.split(':')[0], 10);
+                const minutes = parseInt(time.split(':')[1], 10);
+                const timeInMinutes = (hour * 60) + minutes;
+
+                const morningStart = 8 * 60;   // 08:00
+                const morningEnd = 11 * 60;    // 11:00
+                const afternoonStart = 14 * 60; // 14:00
+                const afternoonEnd = 17 * 60;   // 17:00
+
+                const isMorning = timeInMinutes >= morningStart && timeInMinutes <= morningEnd;
+                const isAfternoon = timeInMinutes >= afternoonStart && timeInMinutes <= afternoonEnd;
+
+                if (!isMorning && !isAfternoon) {
+                    alert("Por favor, escolha um horário válido:\nManhã: das 08:00 às 11:00\nTarde: das 14:00 às 17:00");
+                    return; // Bloqueia o avanço
+                }
             }
 
+            // Se passou em todas as validações, prepara os dados para exibição
             let dateDisplay = 'Não selecionado';
             if (date) {
                 const [year, month, day] = date.split('-');
@@ -138,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('review-date').textContent = dateDisplay;
                 document.getElementById('review-time').textContent = time || 'Não selecionado';
                 
-                showStep('confirm');
+                showStep('confirm'); // Avança para a etapa de revisão
             } else {
                 console.error("IDs de revisão não encontrados no HTML.");
             }
