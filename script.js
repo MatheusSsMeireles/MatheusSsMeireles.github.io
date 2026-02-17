@@ -1,16 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 0. BLOQUEIO DE DATA (MÍNIMO 24 HORAS) ---
+    const dateInput = document.getElementById('schedule-date');
+    if (dateInput) {
+        // Pega a data de hoje e adiciona 1 dia (24 horas)
+        const hoje = new Date();
+        const amanha = new Date(hoje);
+        amanha.setDate(amanha.getDate() + 1);
+
+        // Formata para o padrão HTML (AAAA-MM-DD)
+        const ano = amanha.getFullYear();
+        const mes = String(amanha.getMonth() + 1).padStart(2, '0');
+        const dia = String(amanha.getDate()).padStart(2, '0');
+        
+        // Define a data mínima no calendário
+        dateInput.min = `${ano}-${mes}-${dia}`;
+    }
+
     // --- ELEMENTOS ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     
-    // Modal
+    // Modal & Steps
     const modal = document.getElementById('contact-modal');
     const openModalBtns = document.querySelectorAll('.open-modal-btn');
     const closeModalBtn = document.getElementById('close-modal');
     const btnCloseFinal = document.getElementById('btn-close-final');
     
-    // Etapas (Divs)
     const stepInput = document.getElementById('step-input');
     const stepConfirm = document.getElementById('step-confirm');
     const stepSuccess = document.getElementById('step-success');
@@ -20,13 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEdit = document.getElementById('btn-edit');
     const btnConfirmSend = document.getElementById('btn-confirm-send');
 
-    // --- SCROLL HEADER ---
+    // --- 1. EFEITO SCROLL NO HEADER ---
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     });
 
-    // --- MENU MOBILE ---
+    // --- 2. MENU MOBILE ---
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuToggle.classList.toggle('open');
@@ -39,36 +58,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- FUNÇÕES DE MODAL ---
-    
-    // Função para mostrar apenas a etapa desejada
+    // --- 3. LÓGICA DO MODAL (STEP BY STEP) ---
     const showStep = (stepName) => {
-        // Esconde tudo primeiro
-        stepInput.style.display = 'none';
-        stepConfirm.style.display = 'none';
-        stepSuccess.style.display = 'none';
+        if(stepInput) stepInput.style.display = 'none';
+        if(stepConfirm) stepConfirm.style.display = 'none';
+        if(stepSuccess) stepSuccess.style.display = 'none';
 
-        // Mostra a específica
-        if (stepName === 'input') stepInput.style.display = 'block';
-        if (stepName === 'confirm') stepConfirm.style.display = 'block';
-        if (stepName === 'success') stepSuccess.style.display = 'block';
+        if (stepName === 'input' && stepInput) stepInput.style.display = 'block';
+        if (stepName === 'confirm' && stepConfirm) stepConfirm.style.display = 'block';
+        if (stepName === 'success' && stepSuccess) stepSuccess.style.display = 'block';
     };
 
     const openModal = () => {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        contactForm.reset(); 
-        showStep('input'); // Sempre começa no input limpo
-        
-        // Reseta o botão de confirmar caso tenha ficado como "Enviando..."
-        btnConfirmSend.textContent = 'Confirmar';
-        btnConfirmSend.disabled = false;
-        btnEdit.disabled = false;
+        if(modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if(contactForm) contactForm.reset(); 
+            showStep('input');
+            
+            if(btnConfirmSend) {
+                btnConfirmSend.textContent = 'Confirmar Envio';
+                btnConfirmSend.disabled = false;
+            }
+            if(btnEdit) btnEdit.disabled = false;
+        }
     };
 
     const closeModal = () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        if(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     };
 
     openModalBtns.forEach(btn => btn.addEventListener('click', (e) => {
@@ -76,92 +96,99 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal();
     }));
 
-    closeModalBtn.addEventListener('click', closeModal);
-    btnCloseFinal.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if(btnCloseFinal) btnCloseFinal.addEventListener('click', closeModal);
+    
+    if(modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
 
-    // --- FLUXO DE ETAPAS ---
+    // --- 4. FLUXO DE ENVIO ---
+    if(contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-    // 1. DO INPUT PARA REVISÃO (Sem enviar nada)
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Impede recarregamento
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            const date = document.getElementById('schedule-date').value;
+            const time = document.getElementById('schedule-time').value;
 
-        // Pega os valores
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const message = document.getElementById('message').value;
-        const date = document.getElementById('schedule-date').value;
-        const time = document.getElementById('schedule-time').value;
-
-        // Formata Data
-        let dateDisplay = 'Não selecionado';
-        if (date) {
-            const [year, month, day] = date.split('-');
-            dateDisplay = `${day}/${month}/${year}`;
-        }
-        
-        // Preenche a tela de revisão
-        document.getElementById('review-name').textContent = name;
-        document.getElementById('review-email').textContent = email;
-        document.getElementById('review-phone').textContent = phone;
-        document.getElementById('review-message').textContent = message;
-        document.getElementById('review-date').textContent = dateDisplay;
-        document.getElementById('review-time').textContent = time || 'Não selecionado';
-
-        // MUDA DE TELA INSTANTANEAMENTE
-        showStep('confirm');
-    });
-
-    // 2. DA REVISÃO VOLTA PARA O INPUT (Editar)
-    btnEdit.addEventListener('click', () => {
-        showStep('input');
-    });
-
-    // 3. CONFIRMAR ENVIO (Aqui sim envia para o Webhook)
-    btnConfirmSend.addEventListener('click', async () => {
-        
-        // Muda estado do botão apenas agora
-        const originalText = btnConfirmSend.textContent;
-        btnConfirmSend.textContent = 'Enviando...';
-        btnConfirmSend.disabled = true;
-        btnEdit.disabled = true; // Trava o editar também
-
-        // Prepara dados
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            description: document.getElementById('message').value,
-            schedule_date: document.getElementById('schedule-date').value || 'Não informado',
-            schedule_time: document.getElementById('schedule-time').value || 'Não informado',
-            timestamp: new Date().toISOString()
-        };
-
-        const webhookUrl = 'https://webnflow.lexsec.shop/webhook/site';
-
-        try {
-            const response = await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                showStep('success'); // Sucesso!
-            } else {
-                throw new Error('Erro no servidor');
+            // Validação extra: se escolheu hora, tem que escolher data
+            if (time && !date) {
+                alert("Por favor, selecione uma data para o horário escolhido.");
+                return;
             }
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao conectar. Tente novamente.');
+
+            let dateDisplay = 'Não selecionado';
+            if (date) {
+                const [year, month, day] = date.split('-');
+                dateDisplay = `${day}/${month}/${year}`;
+            }
             
-            // Se der erro, volta o botão ao normal para tentar de novo
-            btnConfirmSend.textContent = originalText;
-            btnConfirmSend.disabled = false;
-            btnEdit.disabled = false;
-        }
-    });
+            const nameDisplay = document.getElementById('review-name');
+            if(nameDisplay) {
+                nameDisplay.textContent = name;
+                document.getElementById('review-email').textContent = email;
+                document.getElementById('review-phone').textContent = phone;
+                document.getElementById('review-message').textContent = message;
+                document.getElementById('review-date').textContent = dateDisplay;
+                document.getElementById('review-time').textContent = time || 'Não selecionado';
+                
+                showStep('confirm');
+            } else {
+                console.error("IDs de revisão não encontrados no HTML.");
+            }
+        });
+    }
+
+    if(btnEdit) {
+        btnEdit.addEventListener('click', () => {
+            showStep('input');
+        });
+    }
+
+    if(btnConfirmSend) {
+        btnConfirmSend.addEventListener('click', async () => {
+            const originalText = btnConfirmSend.textContent;
+            btnConfirmSend.textContent = 'Enviando...';
+            btnConfirmSend.disabled = true;
+            if(btnEdit) btnEdit.disabled = true;
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                description: document.getElementById('message').value,
+                schedule_date: document.getElementById('schedule-date').value || 'Não informado',
+                schedule_time: document.getElementById('schedule-time').value || 'Não informado',
+                timestamp: new Date().toISOString()
+            };
+
+            const webhookUrl = 'https://webnflow.lexsec.shop/webhook/site';
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    showStep('success'); 
+                } else {
+                    throw new Error('Erro servidor');
+                }
+            } catch (error) {
+                alert('Erro ao enviar. Tente novamente.');
+                console.error(error);
+                btnConfirmSend.textContent = originalText;
+                btnConfirmSend.disabled = false;
+                if(btnEdit) btnEdit.disabled = false;
+            }
+        });
+    }
 });
