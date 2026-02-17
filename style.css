@@ -208,3 +208,28 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
     
     .legal-container { margin-top: 100px; padding: 30px; }
 }
+/* Estilos específicos para o novo Select de Horário */
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Adiciona uma setinha branca no lado direito */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E6F1FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px; /* Espaço para a setinha */
+    cursor: pointer;
+}
+
+select.form-input option {
+    background-color: var(--navy-light);
+    color: var(--white);
+    padding: 10px;
+}
+
+select.form-input option:disabled {
+    color: var(--text-muted);
+    font-style: italic;
+    background-color: rgba(0,0,0,0.2);
+}
