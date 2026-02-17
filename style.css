@@ -27,6 +27,7 @@ body {
 /* Tipografia */
 h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; color: var(--white); }
 a { text-decoration: none; color: inherit; transition: var(--transition); }
+.text-cyan { color: var(--cyan); }
 
 /* Botões */
 .btn-primary {
@@ -66,7 +67,6 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
     border-color: var(--white);
     color: var(--white);
 }
-
 .full-width { width: 100%; margin-top: 15px; }
 
 /* Header */
@@ -121,7 +121,25 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
 .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
 .copyright { margin-top: 40px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
 
-/* MODAL */
+/* --- PÁGINAS LEGAIS (Privacidade / Termos) --- */
+.legal-page-body {
+    background-color: var(--navy);
+}
+
+.legal-container {
+    /* Esta margem compensa os 80px do menu + espaço de respiro extra */
+    margin-top: 130px; 
+    margin-bottom: 80px;
+    background: var(--navy-light);
+    padding: 50px;
+    border-radius: 8px;
+    border-left: 4px solid var(--cyan);
+}
+.legal-container h1 { margin-bottom: 30px; border-bottom: 1px solid rgba(100, 255, 218, 0.2); padding-bottom: 10px;}
+.legal-container h2 { margin-top: 30px; margin-bottom: 15px; color: var(--cyan); font-size: 1.5rem;}
+.legal-container p { color: var(--text-muted); margin-bottom: 15px; }
+
+/* Modal */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(2, 12, 27, 0.95); backdrop-filter: blur(5px);
@@ -136,15 +154,13 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
     position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     max-height: 90vh; overflow-y: auto;
 }
-
 .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--white); }
-
 .modal-title { margin-bottom: 20px; text-align: center; color: var(--cyan); font-size: 1.4rem; }
 .sub-title { color: var(--cyan); margin-bottom: 15px; font-size: 1rem; }
 .divider { border-top: 1px solid var(--text-muted); margin: 25px 0; opacity: 0.3; }
 .divider-small { border-top: 1px dashed var(--text-muted); margin: 15px 0; opacity: 0.3; }
 
-/* Inputs */
+/* Inputs do Modal */
 .form-group { margin-bottom: 15px; }
 .form-group label { display: block; margin-bottom: 6px; color: var(--white); font-size: 0.9rem; }
 .form-input {
@@ -168,7 +184,6 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
 .review-item strong { color: var(--cyan); font-weight: 500; margin-right: 5px; }
 .highlight-text { color: var(--white); font-weight: 600; }
 .success-icon { font-size: 4rem; margin-bottom: 15px; }
-
 .action-buttons { display: flex; gap: 15px; justify-content: space-between; }
 .action-buttons button { flex: 1; }
 
@@ -190,4 +205,6 @@ footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px soli
     .hero-content h1 { font-size: 2.5rem; }
     .logo span { display: none; }
     .row-inputs { flex-direction: column; gap: 0; }
+    
+    .legal-container { margin-top: 100px; padding: 30px; }
 }
