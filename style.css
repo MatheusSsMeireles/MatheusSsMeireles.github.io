@@ -1,4 +1,6 @@
-/* --- Variáveis & Reset --- */
+/* =========================================
+   1. VARIÁVEIS E RESET GLOBAL
+   ========================================= */
 :root {
     --navy: #0A192F;
     --navy-light: #112240;
@@ -12,8 +14,17 @@
     --transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html { 
+    scroll-behavior: smooth; 
+    font-size: 16px; 
+}
+
 body {
     background-color: var(--navy);
     color: var(--white);
@@ -22,14 +33,29 @@ body {
     overflow-x: hidden;
 }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 24px; 
+}
 
-/* Tipografia */
-h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; color: var(--white); }
-a { text-decoration: none; color: inherit; transition: var(--transition); }
+/* =========================================
+   2. TIPOGRAFIA E BOTÕES
+   ========================================= */
+h1, h2, h3 { 
+    font-family: var(--font-serif); 
+    font-weight: 700; 
+    color: var(--white); 
+}
+
+a { 
+    text-decoration: none; 
+    color: inherit; 
+    transition: var(--transition); 
+}
+
 .text-cyan { color: var(--cyan); }
 
-/* Botões */
 .btn-primary {
     background: transparent;
     border: 1px solid var(--cyan);
@@ -45,6 +71,7 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
     transition: var(--transition);
     text-align: center;
 }
+
 .btn-primary:hover {
     background: var(--cyan-dim);
     box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
@@ -63,162 +90,408 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
     transition: var(--transition);
     text-align: center;
 }
+
 .btn-secondary:hover {
     border-color: var(--white);
     color: var(--white);
 }
-.full-width { width: 100%; margin-top: 15px; }
 
-/* Header */
+.full-width { 
+    width: 100%; 
+    margin-top: 15px; 
+}
+
+/* =========================================
+   3. HEADER E NAVEGAÇÃO
+   ========================================= */
 header {
-    position: fixed; top: 0; width: 100%; height: 80px;
-    display: flex; align-items: center; z-index: 1000;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    height: 80px;
+    display: flex; 
+    align-items: center; 
+    z-index: 1000;
     background: rgba(10, 25, 47, 0.9);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(100, 255, 218, 0.05);
+    transition: var(--transition);
 }
-header.scrolled { height: 70px; box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7); }
 
-nav.container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--cyan); }
-.logo img { height: 40px; width: auto; object-fit: contain; }
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a:hover { color: var(--cyan); }
+header.scrolled { 
+    height: 70px; 
+    box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7); 
+}
 
-.mobile-menu-btn { display: none; cursor: pointer; flex-direction: column; gap: 6px; z-index: 1100; }
-.mobile-menu-btn span { width: 30px; height: 2px; background-color: var(--cyan); transition: var(--transition); }
+nav.container { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-family: var(--font-serif); 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    color: var(--cyan); 
+}
+
+.logo img { 
+    height: 40px; 
+    width: auto; 
+    object-fit: contain; 
+}
+
+.nav-links { 
+    display: flex; 
+    gap: 32px; 
+    align-items: center; 
+}
+
+.nav-links a:hover { 
+    color: var(--cyan); 
+}
+
+.mobile-menu-btn { 
+    display: none; 
+    cursor: pointer; 
+    flex-direction: column; 
+    gap: 6px; 
+    z-index: 1100; 
+}
+
+.mobile-menu-btn span { 
+    width: 30px; 
+    height: 2px; 
+    background-color: var(--cyan); 
+    transition: var(--transition); 
+}
+
 .mobile-menu-btn.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
 .mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
 .mobile-menu-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
-/* Hero */
+/* =========================================
+   4. SEÇÕES PRINCIPAIS (HERO E SERVIÇOS)
+   ========================================= */
 #hero {
     min-height: 100vh;
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     background-color: var(--charcoal);
     background-image: linear-gradient(90deg, var(--charcoal) 20%, rgba(10, 25, 47, 0.9) 100%), url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
-    background-size: 45%; background-position: right center; background-repeat: no-repeat;
-    position: relative; padding-top: 80px;
+    background-size: 45%; 
+    background-position: right center; 
+    background-repeat: no-repeat;
+    position: relative; 
+    padding-top: 80px;
 }
-.hero-content { max-width: 650px; position: relative; z-index: 2; }
-.hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 24px; }
-.hero-content p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 540px; }
 
-/* Serviços */
-#services { padding: 100px 0; background: var(--navy); }
-.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; }
-.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.hero-content { 
+    max-width: 650px; 
+    position: relative; 
+    z-index: 2; 
+}
+
+.hero-content h1 { 
+    font-size: clamp(2.5rem, 5vw, 4rem); 
+    line-height: 1.1; 
+    margin-bottom: 24px; 
+}
+
+.hero-content p { 
+    color: var(--text-muted); 
+    font-size: 1.1rem; 
+    margin-bottom: 40px; 
+    max-width: 540px; 
+}
+
+#services { 
+    padding: 100px 0; 
+    background: var(--navy); 
+}
+
+.section-title { 
+    text-align: center; 
+    font-size: 2.5rem; 
+    margin-bottom: 60px; 
+}
+
+.services-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 24px; 
+}
+
 .service-card {
-    background: var(--navy-light); padding: 40px; border-radius: 6px;
-    border: 1px solid transparent; transition: var(--transition);
+    background: var(--navy-light); 
+    padding: 40px; 
+    border-radius: 6px;
+    border: 1px solid transparent; 
+    transition: var(--transition);
 }
-.service-card:hover { border-color: var(--cyan); transform: translateY(-5px); }
-.service-icon { font-size: 2.5rem; margin-bottom: 20px; color: var(--cyan); }
 
-/* Footer */
-footer { padding: 60px 0 30px; background: var(--charcoal); border-top: 1px solid var(--navy-light); text-align: center; }
-.footer-links { margin-top: 20px; display: flex; justify-content: center; gap: 20px; }
-.footer-links a { color: var(--text-muted); font-size: 0.9rem; }
-.copyright { margin-top: 40px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
+.service-card:hover { 
+    border-color: var(--cyan); 
+    transform: translateY(-5px); 
+}
 
-/* --- PÁGINAS LEGAIS (Privacidade / Termos) --- */
+.service-icon { 
+    font-size: 2.5rem; 
+    margin-bottom: 20px; 
+    color: var(--cyan); 
+}
+
+/* =========================================
+   5. PÁGINAS LEGAIS (Privacidade / Termos)
+   ========================================= */
 .legal-page-body {
     background-color: var(--navy);
 }
 
 .legal-container {
-    /* Esta margem compensa os 80px do menu + espaço de respiro extra */
-    margin-top: 130px; 
+    /* Margem que empurra o conteúdo para baixo do header fixo (80px) */
+    margin-top: 140px; 
     margin-bottom: 80px;
     background: var(--navy-light);
     padding: 50px;
     border-radius: 8px;
     border-left: 4px solid var(--cyan);
 }
-.legal-container h1 { margin-bottom: 30px; border-bottom: 1px solid rgba(100, 255, 218, 0.2); padding-bottom: 10px;}
-.legal-container h2 { margin-top: 30px; margin-bottom: 15px; color: var(--cyan); font-size: 1.5rem;}
-.legal-container p { color: var(--text-muted); margin-bottom: 15px; }
 
-/* Modal */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(2, 12, 27, 0.95); backdrop-filter: blur(5px);
-    z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition);
-    display: flex; justify-content: center; align-items: center; padding: 20px;
+.legal-container h1 { 
+    margin-bottom: 30px; 
+    border-bottom: 1px solid rgba(100, 255, 218, 0.2); 
+    padding-bottom: 10px;
 }
-.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.legal-container h2 { 
+    margin-top: 30px; 
+    margin-bottom: 15px; 
+    color: var(--cyan); 
+    font-size: 1.5rem;
+}
+
+.legal-container p { 
+    color: var(--text-muted); 
+    margin-bottom: 15px; 
+}
+
+/* =========================================
+   6. FOOTER
+   ========================================= */
+footer { 
+    padding: 60px 0 30px; 
+    background: var(--charcoal); 
+    border-top: 1px solid var(--navy-light); 
+    text-align: center; 
+}
+
+.footer-links { 
+    margin-top: 20px; 
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.footer-links a { 
+    color: var(--text-muted); 
+    font-size: 0.9rem; 
+}
+
+.copyright { 
+    margin-top: 40px; 
+    color: var(--text-muted); 
+    font-size: 0.8rem; 
+    opacity: 0.6; 
+}
+
+/* =========================================
+   7. MODAL DE CONTATO E AGENDAMENTO
+   ========================================= */
+.modal-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(2, 12, 27, 0.95); 
+    backdrop-filter: blur(5px);
+    z-index: 2000; 
+    opacity: 0; 
+    visibility: hidden; 
+    transition: var(--transition);
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px;
+}
+
+.modal-overlay.active { 
+    opacity: 1; 
+    visibility: visible; 
+}
 
 .modal-content {
-    background: var(--navy-light); width: 100%; max-width: 500px;
-    padding: 40px; border-radius: 8px; border: 1px solid var(--cyan);
-    position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    max-height: 90vh; overflow-y: auto;
+    background: var(--navy-light); 
+    width: 100%; 
+    max-width: 500px;
+    padding: 40px; 
+    border-radius: 8px; 
+    border: 1px solid var(--cyan);
+    position: relative; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    max-height: 90vh; 
+    overflow-y: auto;
 }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--white); }
-.modal-title { margin-bottom: 20px; text-align: center; color: var(--cyan); font-size: 1.4rem; }
-.sub-title { color: var(--cyan); margin-bottom: 15px; font-size: 1rem; }
-.divider { border-top: 1px solid var(--text-muted); margin: 25px 0; opacity: 0.3; }
-.divider-small { border-top: 1px dashed var(--text-muted); margin: 15px 0; opacity: 0.3; }
 
-/* Inputs do Modal */
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 6px; color: var(--white); font-size: 0.9rem; }
-.form-input {
-    width: 100%; padding: 12px; background: var(--navy);
-    border: 1px solid var(--text-muted); border-radius: 4px;
-    color: var(--white); font-family: var(--font-sans); outline: none; transition: var(--transition);
+.close-modal { 
+    position: absolute; 
+    top: 15px; 
+    right: 20px; 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    color: var(--white); 
 }
-.form-input:focus { border-color: var(--cyan); }
-::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
-.row-inputs { display: flex; gap: 15px; }
-.half { flex: 1; }
 
-/* Review Box */
-.step-desc { color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem; }
+.modal-title { 
+    margin-bottom: 20px; 
+    text-align: center; 
+    color: var(--cyan); 
+    font-size: 1.4rem; 
+}
+
+.sub-title { 
+    color: var(--cyan); 
+    margin-bottom: 15px; 
+    font-size: 1rem; 
+}
+
+.divider { 
+    border-top: 1px solid var(--text-muted); 
+    margin: 25px 0; 
+    opacity: 0.3; 
+}
+
+.divider-small { 
+    border-top: 1px dashed var(--text-muted); 
+    margin: 15px 0; 
+    opacity: 0.3; 
+}
+
+/* Telas do Modal (Review e Sucesso) */
+.step-desc { 
+    color: var(--text-muted); 
+    text-align: center; 
+    margin-bottom: 20px; 
+    font-size: 0.9rem; 
+}
+
 .review-box {
     background: rgba(2, 12, 27, 0.5);
-    padding: 20px; border-radius: 4px; border-left: 3px solid var(--text-muted);
-    font-size: 0.95rem; margin-bottom: 25px;
+    padding: 20px; 
+    border-radius: 4px; 
+    border-left: 3px solid var(--text-muted);
+    font-size: 0.95rem; 
+    margin-bottom: 25px;
 }
-.review-item { margin-bottom: 10px; color: var(--white); }
-.review-item strong { color: var(--cyan); font-weight: 500; margin-right: 5px; }
-.highlight-text { color: var(--white); font-weight: 600; }
-.success-icon { font-size: 4rem; margin-bottom: 15px; }
-.action-buttons { display: flex; gap: 15px; justify-content: space-between; }
-.action-buttons button { flex: 1; }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .nav-links {
-        position: fixed; top: 80px; right: -100%; width: 100%; height: calc(100vh - 80px);
-        background: var(--navy); flex-direction: column; justify-content: center;
-        transition: 0.4s; border-top: 1px solid var(--cyan);
-    }
-    .nav-links.active { right: 0; }
-    .mobile-menu-btn { display: flex; }
-    
-    #hero {
-        background-position: center bottom; background-size: 80%;
-        background-image: linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.9)), url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
-        text-align: center;
-    }
-    .hero-content h1 { font-size: 2.5rem; }
-    .logo span { display: none; }
-    .row-inputs { flex-direction: column; gap: 0; }
-    
-    .legal-container { margin-top: 100px; padding: 30px; }
+.review-item { 
+    margin-bottom: 10px; 
+    color: var(--white); 
 }
-/* Estilos específicos para o novo Select de Horário */
+
+.review-item strong { 
+    color: var(--cyan); 
+    font-weight: 500; 
+    margin-right: 5px; 
+}
+
+.highlight-text { 
+    color: var(--white); 
+    font-weight: 600; 
+}
+
+.success-icon { 
+    font-size: 4rem; 
+    margin-bottom: 15px; 
+}
+
+.action-buttons { 
+    display: flex; 
+    gap: 15px; 
+    justify-content: space-between; 
+}
+
+.action-buttons button { 
+    flex: 1; 
+}
+
+/* =========================================
+   8. FORMULÁRIOS, SELECTS E FLATPICKR
+   ========================================= */
+.form-group { 
+    margin-bottom: 15px; 
+}
+
+.form-group label { 
+    display: block; 
+    margin-bottom: 6px; 
+    color: var(--white); 
+    font-size: 0.9rem; 
+}
+
+.form-input {
+    width: 100%; 
+    padding: 12px; 
+    background: var(--navy);
+    border: 1px solid var(--text-muted); 
+    border-radius: 4px;
+    color: var(--white); 
+    font-family: var(--font-sans); 
+    outline: none; 
+    transition: var(--transition);
+}
+
+.form-input:focus { 
+    border-color: var(--cyan); 
+}
+
+::-webkit-calendar-picker-indicator { 
+    filter: invert(1); 
+    cursor: pointer; 
+}
+
+.row-inputs { 
+    display: flex; 
+    gap: 15px; 
+}
+
+.half { 
+    flex: 1; 
+}
+
+/* Ajustes Específicos para a Biblioteca Flatpickr */
+.flatpickr-input[readonly] {
+    background-color: var(--navy) !important;
+    color: var(--white) !important;
+    cursor: pointer;
+}
+
+/* Ajustes Específicos para o Select de Horas */
 select.form-input {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    /* Adiciona uma setinha branca no lado direito */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E6F1FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 16px;
-    padding-right: 40px; /* Espaço para a setinha */
+    padding-right: 40px;
     cursor: pointer;
 }
 
@@ -231,5 +504,48 @@ select.form-input option {
 select.form-input option:disabled {
     color: var(--text-muted);
     font-style: italic;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* =========================================
+   9. RESPONSIVIDADE (MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed; 
+        top: 80px; 
+        right: -100%; 
+        width: 100%; 
+        height: calc(100vh - 80px);
+        background: var(--navy); 
+        flex-direction: column; 
+        justify-content: center;
+        transition: 0.4s; 
+        border-top: 1px solid var(--cyan);
+    }
+    
+    .nav-links.active { right: 0; }
+    
+    .mobile-menu-btn { display: flex; }
+    
+    #hero {
+        background-position: center bottom; 
+        background-size: 80%;
+        background-image: linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.9)), url('https://s3storage.lexsec.shop/logos/Logo%20LexSec.png');
+        text-align: center;
+    }
+    
+    .hero-content h1 { font-size: 2.5rem; }
+    
+    .logo span { display: none; }
+    
+    .row-inputs { 
+        flex-direction: column; 
+        gap: 0; 
+    }
+    
+    .legal-container { 
+        margin-top: 110px; /* Ajuste mobile para o header */
+        padding: 30px; 
+    }
 }
