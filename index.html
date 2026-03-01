@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LexSec | Segurança Jurídica e Digital</title>
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -24,6 +26,11 @@
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#about-brief">Sobre</a></li>
+                <li>
+                    <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
+                        <i data-lucide="moon" id="theme-icon"></i>
+                    </button>
+                </li>
                 <li><button class="btn-primary open-modal-btn">Contato</button></li>
             </ul>
             <div class="mobile-menu-btn" id="menu-toggle">
@@ -35,7 +42,7 @@
     <main>
         <section id="hero">
             <div class="container">
-                <div class="hero-content">
+                <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
                     <h1>Segurança Jurídica para sua Infraestrutura Digital</h1>
                     <p>Unimos a conformidade da Lei com a robustez da Tecnologia da Informação para blindar o seu negócio.</p>
                     <button class="btn-primary open-modal-btn">Agendar Consultoria</button>
@@ -45,25 +52,25 @@
 
         <section id="services">
             <div class="container">
-                <h2 class="section-title">Nossos Pilares</h2>
+                <h2 class="section-title" data-aos="fade-up">Nossos Pilares</h2>
                 <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">🛡️</div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-icon"><i data-lucide="shield-check"></i></div>
                         <h3>Segurança de Infraestrutura</h3>
                         <p>Proteção de redes, servidores e endpoints com monitoramento ativo.</p>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">⚖️</div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-icon"><i data-lucide="scale"></i></div>
                         <h3>DPO as a Service</h3>
                         <p>Encarregado de dados externo para garantir conformidade com a LGPD.</p>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">💻</div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-icon"><i data-lucide="server-cog"></i></div>
                         <h3>Manutenção de TI</h3>
                         <p>Suporte técnico especializado para alta disponibilidade.</p>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">📑</div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="service-icon"><i data-lucide="file-lock-2"></i></div>
                         <h3>Direito Digital</h3>
                         <p>Consultoria jurídica especializada em crimes cibernéticos e contratos.</p>
                     </div>
@@ -71,11 +78,11 @@
             </div>
         </section>
 
-        <section id="about-brief" class="container" style="padding: 100px 0; text-align: center;">
+        <section id="about-brief" class="container" style="padding: 100px 0; text-align: center;" data-aos="zoom-in">
             <h2 class="section-title">A Dualidade LexSec</h2>
             <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto;">
                 Não somos apenas técnicos, nem apenas advogados. Somos a intersecção necessária. 
-                Entregamos a <strong>segurança técnica</strong> que seu TI precisa com a <strong>validade jurídica</strong> que sua empresa exige.
+                Entregamos a <strong>segurança técnica</strong> que seu TI precisa com a <strong>validade jurídica</strong> exigida pela legislação.
             </p>
         </section>
     </main>
@@ -124,7 +131,7 @@
                     <div class="row-inputs">
                         <div class="form-group half">
                             <label for="schedule-date">Data (Mín. 24h)</label>
-                            <input type="text" id="schedule-date" name="schedule_date" class="form-input" placeholder="Selecione o dia...">
+                            <input type="text" id="schedule-date" name="schedule_date" class="form-input" placeholder="Clique para escolher..." readonly style="cursor: pointer;">
                             <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Apenas dias úteis.</small>
                         </div>
                         <div class="form-group half">
@@ -156,7 +163,7 @@
                     <div class="review-item"><strong>Nome:</strong> <span id="review-name"></span></div>
                     <div class="review-item"><strong>E-mail:</strong> <span id="review-email"></span></div>
                     <div class="review-item"><strong>Telefone:</strong> <span id="review-phone"></span></div>
-                    <div class="review-item"><strong>Mensagem:</strong> <br><span id="review-message" style="font-style: italic; color: #ccc;"></span></div>
+                    <div class="review-item"><strong>Mensagem:</strong> <br><span id="review-message" style="font-style: italic; color: var(--text-muted);"></span></div>
                     <div class="divider-small"></div>
                     <div class="review-item"><strong>Data:</strong> <span id="review-date" class="highlight-text"></span></div>
                     <div class="review-item"><strong>Horário:</strong> <span id="review-time" class="highlight-text"></span></div>
@@ -169,22 +176,20 @@
             </div>
 
             <div id="step-success" style="display: none; text-align: center; padding: 20px 0;">
-                <div class="success-icon">✅</div>
+                <div class="success-icon" style="color: var(--cyan); display: flex; justify-content: center;"><i data-lucide="check-circle" style="width: 64px; height: 64px;"></i></div>
                 <h3 class="modal-title" style="color: var(--cyan);">Solicitação Recebida!</h3>
-                <p style="color: var(--white); margin-bottom: 20px;">
-                    Seus dados foram enviados com sucesso para nossa equipe segura.
-                </p>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">
-                    Em instantes, um de nossos consultores entrará em contato.
-                </p>
+                <p style="color: var(--white); margin-bottom: 20px;">Seus dados foram enviados com sucesso.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Em instantes, um de nossos consultores entrará em contato.</p>
                 <button id="btn-close-final" class="btn-primary" style="margin-top: 30px;">Fechar</button>
             </div>
 
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/pt.min.js"></script>
     
     <script src="script.js"></script>
 </body>
