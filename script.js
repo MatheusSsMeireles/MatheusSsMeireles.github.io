@@ -1,23 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. LÓGICA DO CALENDÁRIO COM FLATPICKR ---
+    // --- 1. INICIALIZAÇÃO VISUAL (ÍCONES E ANIMAÇÕES) ---
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ once: true, offset: 50, duration: 800 });
+    }
+
+    // --- 2. SISTEMA DE TEMAS (CLARO / ESCURO / AUTO) ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (themeIcon) {
+            themeIcon.setAttribute('data-lucide', theme === 'light' ? 'sun' : 'moon');
+            lucide.createIcons(); 
+        }
+    };
+
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const savedTheme = localStorage.getItem('lexsec-theme');
+    
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        applyTheme(prefersDarkScheme.matches ? 'dark' : 'light');
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('lexsec-theme', newTheme);
+        });
+    }
+
+    prefersDarkScheme.addEventListener("change", (e) => {
+        if (!localStorage.getItem('lexsec-theme')) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    // --- 3. LÓGICA DO CALENDÁRIO COM FLATPICKR ---
     const dateInput = document.getElementById('schedule-date');
     const timeSelect = document.getElementById('schedule-time');
     let fpInstance = null;
 
     if (dateInput && timeSelect && typeof flatpickr !== 'undefined') {
         const now = new Date();
-        // A data mínima é EXATAMENTE 24 horas a partir do momento atual
         const minValidDateTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-        // Se daqui a 24h cair no Fim de Semana, empurra a data mínima para Segunda
-        if (minValidDateTime.getDay() === 6) { // Sábado
+        if (minValidDateTime.getDay() === 6) { 
             minValidDateTime.setDate(minValidDateTime.getDate() + 2);
-        } else if (minValidDateTime.getDay() === 0) { // Domingo
+        } else if (minValidDateTime.getDay() === 0) { 
             minValidDateTime.setDate(minValidDateTime.getDate() + 1);
         }
 
-        // Formatação YYYY-MM-DD segura para o flatpickr não confundir fusos
         const formatStringDate = (dateObj) => {
             const year = dateObj.getFullYear();
             const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -32,22 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             timeSelect.options[0].text = "Selecione o horário";
-
-            // Recalcula o tempo agora caso o usuário tenha deixado a tela aberta muito tempo
             const currentBoundary = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
             
             Array.from(timeSelect.options).forEach(option => {
                 if (!option.value) return; 
 
                 const optionHour = parseInt(option.value.split(':')[0], 10);
-                
-                // Verifica se a data selecionada é exatamente o dia limite de 24h
                 const isSameBoundaryDay = selectedDate.getDate() === currentBoundary.getDate() &&
                                           selectedDate.getMonth() === currentBoundary.getMonth() &&
                                           selectedDate.getFullYear() === currentBoundary.getFullYear();
 
                 if (isSameBoundaryDay) {
-                    // Bloqueia horas que não cumprem o prazo de 24h
                     if (optionHour <= currentBoundary.getHours()) {
                         option.disabled = true;
                         option.text = `${option.value} (Requer 24h)`;
@@ -56,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         option.text = option.value;
                     }
                 } else {
-                    // Qualquer dia posterior é 100% liberado
                     option.disabled = false;
                     option.text = option.value;
                 }
@@ -67,28 +103,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Instancia o calendário profissional
         fpInstance = flatpickr(dateInput, {
             locale: "pt", 
             dateFormat: "Y-m-d", 
             altInput: true,
             altFormat: "d/m/Y", 
-            minDate: formatStringDate(minValidDateTime), // Fica tudo cinza antes dessa data
+            minDate: formatStringDate(minValidDateTime),
             disable: [
                 function(date) {
-                    // Desabilita fisicamente Sábados (6) e Domingos (0)
                     return (date.getDay() === 0 || date.getDay() === 6);
                 }
             ],
-            onChange: function(selectedDates, dateStr, instance) {
+            onChange: function(selectedDates) {
                 updateTimeOptions(selectedDates[0]);
             }
         });
-    } else {
-        console.error("Flatpickr não foi carregado. Verifique os links no index.html.");
     }
 
-    // --- 2. ELEMENTOS E EVENTOS DE LAYOUT ---
+    // --- 4. ELEMENTOS DA INTERFACE E EVENTOS ---
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
@@ -123,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. CONTROLE DE MODAL E TRANSIÇÃO ---
+    // --- 5. CONTROLE DO MODAL ---
     const showStep = (stepName) => {
         if(stepInput) stepInput.style.display = 'none';
         if(stepConfirm) stepConfirm.style.display = 'none';
@@ -173,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. FLUXO DE REVISÃO E ENVIO ---
+    // --- 6. FLUXO DE REVISÃO E ENVIO WEBHOOK ---
     if(contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); 
@@ -185,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = document.getElementById('schedule-date').value; 
             const time = document.getElementById('schedule-time').value;
 
-            // Bloqueio final de segurança
             if ((date && !time) || (!date && time)) {
                 alert("Para agendar, preencha a Data e o Horário.");
                 return;
@@ -193,8 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let dateDisplay = 'Não selecionado';
             if (date) {
-                const [year, month, day] = date.split('-');
-                dateDisplay = `${day}/${month}/${year}`;
+                const parts = date.split('-');
+                if (parts.length === 3) {
+                    dateDisplay = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
             }
             
             const nameDisplay = document.getElementById('review-name');
