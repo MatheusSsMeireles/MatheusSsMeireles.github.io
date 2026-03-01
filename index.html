@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LexSec | Segurança Jurídica e Digital</title>
+    
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css" id="flatpickr-theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.css" id="fp-theme">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -20,19 +21,19 @@
         <nav class="container">
             <a href="index.html" class="logo">
                 <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec Logo">
-                <span class="logo-text">LexSec</span>
+                <span>LexSec</span>
             </a>
             <ul class="nav-links" id="nav-menu">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#about-brief">Sobre</a></li>
                 <li>
-                    <button id="theme-toggle" class="theme-switch" aria-label="Trocar Tema">
+                    <button id="theme-toggle" class="btn-icon">
                         <i data-lucide="sun" class="sun-icon"></i>
                         <i data-lucide="moon" class="moon-icon"></i>
                     </button>
                 </li>
-                <li><button class="btn-primary open-modal-btn">Consultoria</button></li>
+                <li><button class="btn-primary open-modal-btn">Agendar Consultoria</button></li>
             </ul>
             <div class="mobile-menu-btn" id="menu-toggle">
                 <span></span><span></span><span></span>
@@ -42,126 +43,101 @@
 
     <main>
         <section id="hero">
-            <div class="hero-glow"></div>
             <div class="container">
                 <div class="hero-content" data-aos="fade-right">
-                    <span class="badge">Inteligência Cibernética & Direito</span>
-                    <h1>Segurança Jurídica para sua <span class="text-gradient">Infraestrutura Digital</span></h1>
-                    <p>Unimos a robustez da Tecnologia da Informação com o compliance da Lei para blindar sua empresa contra ameaças modernas.</p>
-                    <div class="hero-actions">
-                        <button class="btn-primary open-modal-btn">Agendar Consultoria Especializada</button>
-                        <a href="#services" class="btn-link">Ver serviços <i data-lucide="arrow-right"></i></a>
-                    </div>
+                    <span class="badge">Cyber Security & Law Compliance</span>
+                    <h1>Segurança Jurídica para sua <br><span class="accent-text">Infraestrutura Digital</span></h1>
+                    <p>Unimos a força da tecnologia com a blindagem da lei para proteger os ativos mais valiosos da sua empresa.</p>
+                    <button class="btn-primary open-modal-btn">Começar Protocolo</button>
                 </div>
             </div>
         </section>
 
         <section id="services">
             <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <h2 class="section-title">Nossos Pilares</h2>
-                    <p>Soluções integradas para um ecossistema digital seguro.</p>
-                </div>
+                <h2 class="section-title" data-aos="fade-up">Soluções Integradas</h2>
                 <div class="services-grid">
                     <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="service-icon"><i data-lucide="shield-check"></i></div>
+                        <i data-lucide="shield-check"></i>
                         <h3>Segurança de Infraestrutura</h3>
-                        <p>Proteção multicamadas de ativos, redes e servidores com monitoramento contínuo.</p>
+                        <p>Monitoramento e defesa ativa contra intrusões cibernéticas.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-icon"><i data-lucide="scale"></i></div>
-                        <h3>DPO & Compliance LGPD</h3>
-                        <p>Adequação jurídica plena e gestão de privacidade de dados em nível estratégico.</p>
+                        <i data-lucide="gavel"></i>
+                        <h3>DPO & Compliance</h3>
+                        <p>Adequação plena à LGPD com suporte jurídico contínuo.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="service-icon"><i data-lucide="server-cog"></i></div>
-                        <h3>Manutenção Preventiva TI</h3>
-                        <p>Suporte técnico de alto nível garantindo 99.9% de disponibilidade operacional.</p>
+                        <i data-lucide="server-cog"></i>
+                        <h3>Manutenção de TI</h3>
+                        <p>Gestão técnica de alto nível para infraestruturas críticas.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="service-icon"><i data-lucide="gavel"></i></div>
-                        <h3>Direito Digital Cyber</h3>
-                        <p>Consultoria legal especializada em crimes cibernéticos, contratos e perícia digital.</p>
+                        <i data-lucide="file-text"></i>
+                        <h3>Direito Digital</h3>
+                        <p>Consultoria legal para perícia, contratos e incidentes digitais.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about-brief">
-            <div class="container">
-                <div class="about-glass" data-aos="zoom-in">
-                    <div class="about-text">
-                        <h2>A Fusão que o Mercado Exige</h2>
-                        <p>Na <strong>LexSec</strong>, não enxergamos a segurança apenas como um firewall ou apenas como uma cláusula contratual. Somos a convergência necessária entre a Engenharia de Sistemas e a Ciência Jurídica.</p>
-                    </div>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <span>24h</span>
-                            <small>Prontidão Digital</small>
-                        </div>
-                        <div class="stat-item">
-                            <span>100%</span>
-                            <small>Legal Compliance</small>
-                        </div>
-                    </div>
-                </div>
+        <section id="about-brief" class="container" data-aos="fade-up">
+            <div class="about-glass">
+                <h2>Por que a LexSec?</h2>
+                <p>Nascemos da necessidade de um mercado que não pode mais separar o BIT da LEI. Nossa equipe é composta por engenheiros de sistemas e advogados especialistas em cibersegurança.</p>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="container footer-content">
-            <div class="footer-info">
+        <div class="container footer-grid">
+            <div class="footer-brand">
                 <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec">
-                <p>Protegendo o presente, garantindo o futuro digital da sua empresa.</p>
+                <p>Segurança e Conformidade de alto nível.</p>
             </div>
             <div class="footer-nav">
-                <h4>Empresa</h4>
                 <a href="privacy.html">Privacidade</a>
                 <a href="terms.html">Termos de Uso</a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 LexSec. Todos os direitos reservados.</p>
-        </div>
+        <p class="copyright">&copy; 2026 LexSec. Todos os direitos reservados.</p>
     </footer>
 
     <div class="modal-overlay" id="contact-modal">
         <div class="modal-content">
-            <button class="close-modal" id="close-modal"><i data-lucide="x"></i></button>
+            <button class="close-modal" id="close-modal">&times;</button>
             
             <div id="step-input" class="modal-step">
-                <h3 class="modal-title">Consultoria LexSec</h3>
-                <p class="modal-subtitle">Preencha os dados para iniciarmos o seu protocolo.</p>
+                <h3>Consultoria Especializada</h3>
                 <form id="contact-form">
                     <div class="form-group">
-                        <label>Nome Completo</label>
-                        <input type="text" id="name" class="form-input" required placeholder="Ex: Matheus Silva">
+                        <label>Nome Completo *</label>
+                        <input type="text" id="name" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <label>E-mail Corporativo</label>
-                        <input type="email" id="email" class="form-input" required placeholder="seu@empresa.com">
+                        <label>E-mail Corporativo *</label>
+                        <input type="email" id="email" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <label>WhatsApp / Telefone</label>
-                        <input type="tel" id="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
+                        <label>WhatsApp *</label>
+                        <input type="tel" id="phone" required class="form-input" placeholder="(XX) 9XXXX-XXXX">
                     </div>
                     <div class="form-group">
-                        <label>Breve Descrição</label>
-                        <textarea id="message" class="form-input" rows="2" required placeholder="Como podemos ajudar sua infraestrutura?"></textarea>
+                        <label>Descrição da Necessidade *</label>
+                        <textarea id="message" required class="form-input" rows="2"></textarea>
                     </div>
                     
                     <div class="divider"><span>Agendamento</span></div>
                     
                     <div class="row-inputs">
                         <div class="form-group half">
-                            <label>Data Escolhida</label>
+                            <label>Data (Mín. 24h)</label>
                             <input type="text" id="schedule-date" class="form-input" placeholder="Selecione..." readonly>
                         </div>
                         <div class="form-group half">
                             <label>Horário</label>
                             <select id="schedule-time" class="form-input">
-                                <option value="" disabled selected>Data primeiro...</option>
+                                <option value="" disabled selected>Escolha a data</option>
                                 <option value="08:00">08:00</option>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
@@ -173,29 +149,28 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn-primary full-width">Revisar Solicitação</button>
+                    <button type="submit" class="btn-primary full-width">Revisar Protocolo</button>
                 </form>
             </div>
 
             <div id="step-confirm" class="modal-step" style="display: none;">
-                <h3 class="modal-title">Confirmar Protocolo</h3>
+                <h3>Confirme os Detalhes</h3>
                 <div class="review-box">
                     <p><strong>Nome:</strong> <span id="review-name"></span></p>
-                    <p><strong>E-mail:</strong> <span id="review-email"></span></p>
-                    <p><strong>Data:</strong> <span id="review-date" class="highlight"></span></p>
-                    <p><strong>Horário:</strong> <span id="review-time" class="highlight"></span></p>
+                    <p><strong>Data:</strong> <span id="review-date"></span></p>
+                    <p><strong>Horário:</strong> <span id="review-time"></span></p>
                 </div>
                 <div class="action-buttons">
                     <button id="btn-edit" class="btn-secondary">Editar</button>
-                    <button id="btn-confirm-send" class="btn-primary">Confirmar e Enviar</button>
+                    <button id="btn-confirm-send" class="btn-primary">Confirmar Envio</button>
                 </div>
             </div>
 
             <div id="step-success" class="modal-step" style="display: none; text-align: center;">
-                <div class="success-icon"><i data-lucide="check-circle-2"></i></div>
-                <h3>Solicitação Enviada</h3>
-                <p>Seu protocolo foi gerado. Fique atento ao seu WhatsApp, entraremos em contato em breve.</p>
-                <button id="btn-close-final" class="btn-primary" style="margin-top: 20px;">Finalizar</button>
+                <div class="success-icon">✓</div>
+                <h3>Enviado com Sucesso</h3>
+                <p>Recebemos sua solicitação. Em breve, nossa equipe entrará em contato via WhatsApp.</p>
+                <button id="btn-close-final" class="btn-primary" style="margin-top: 20px;">Fechar</button>
             </div>
         </div>
     </div>
@@ -204,6 +179,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/pt.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
