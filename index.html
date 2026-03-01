@@ -6,11 +6,11 @@
     <title>LexSec | Segurança Jurídica e Digital</title>
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css" id="flatpickr-theme">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -20,18 +20,19 @@
         <nav class="container">
             <a href="index.html" class="logo">
                 <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec Logo">
-                <span>LexSec</span>
+                <span class="logo-text">LexSec</span>
             </a>
             <ul class="nav-links" id="nav-menu">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#about-brief">Sobre</a></li>
                 <li>
-                    <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
-                        <i data-lucide="moon" id="theme-icon"></i>
+                    <button id="theme-toggle" class="theme-switch" aria-label="Trocar Tema">
+                        <i data-lucide="sun" class="sun-icon"></i>
+                        <i data-lucide="moon" class="moon-icon"></i>
                     </button>
                 </li>
-                <li><button class="btn-primary open-modal-btn">Contato</button></li>
+                <li><button class="btn-primary open-modal-btn">Consultoria</button></li>
             </ul>
             <div class="mobile-menu-btn" id="menu-toggle">
                 <span></span><span></span><span></span>
@@ -41,103 +42,126 @@
 
     <main>
         <section id="hero">
+            <div class="hero-glow"></div>
             <div class="container">
-                <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-                    <h1>Segurança Jurídica para sua Infraestrutura Digital</h1>
-                    <p>Unimos a conformidade da Lei com a robustez da Tecnologia da Informação para blindar o seu negócio.</p>
-                    <button class="btn-primary open-modal-btn">Agendar Consultoria</button>
+                <div class="hero-content" data-aos="fade-right">
+                    <span class="badge">Inteligência Cibernética & Direito</span>
+                    <h1>Segurança Jurídica para sua <span class="text-gradient">Infraestrutura Digital</span></h1>
+                    <p>Unimos a robustez da Tecnologia da Informação com o compliance da Lei para blindar sua empresa contra ameaças modernas.</p>
+                    <div class="hero-actions">
+                        <button class="btn-primary open-modal-btn">Agendar Consultoria Especializada</button>
+                        <a href="#services" class="btn-link">Ver serviços <i data-lucide="arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="services">
             <div class="container">
-                <h2 class="section-title" data-aos="fade-up">Nossos Pilares</h2>
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title">Nossos Pilares</h2>
+                    <p>Soluções integradas para um ecossistema digital seguro.</p>
+                </div>
                 <div class="services-grid">
                     <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="service-icon"><i data-lucide="shield-check"></i></div>
                         <h3>Segurança de Infraestrutura</h3>
-                        <p>Proteção de redes, servidores e endpoints com monitoramento ativo.</p>
+                        <p>Proteção multicamadas de ativos, redes e servidores com monitoramento contínuo.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="service-icon"><i data-lucide="scale"></i></div>
-                        <h3>DPO as a Service</h3>
-                        <p>Encarregado de dados externo para garantir conformidade com a LGPD.</p>
+                        <h3>DPO & Compliance LGPD</h3>
+                        <p>Adequação jurídica plena e gestão de privacidade de dados em nível estratégico.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="service-icon"><i data-lucide="server-cog"></i></div>
-                        <h3>Manutenção de TI</h3>
-                        <p>Suporte técnico especializado para alta disponibilidade.</p>
+                        <h3>Manutenção Preventiva TI</h3>
+                        <p>Suporte técnico de alto nível garantindo 99.9% de disponibilidade operacional.</p>
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="service-icon"><i data-lucide="file-lock-2"></i></div>
-                        <h3>Direito Digital</h3>
-                        <p>Consultoria jurídica especializada em crimes cibernéticos e contratos.</p>
+                        <div class="service-icon"><i data-lucide="gavel"></i></div>
+                        <h3>Direito Digital Cyber</h3>
+                        <p>Consultoria legal especializada em crimes cibernéticos, contratos e perícia digital.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about-brief" class="container" style="padding: 100px 0; text-align: center;" data-aos="zoom-in">
-            <h2 class="section-title">A Dualidade LexSec</h2>
-            <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto;">
-                Não somos apenas técnicos, nem apenas advogados. Somos a intersecção necessária. 
-                Entregamos a <strong>segurança técnica</strong> que seu TI precisa com a <strong>validade jurídica</strong> exigida pela legislação.
-            </p>
+        <section id="about-brief">
+            <div class="container">
+                <div class="about-glass" data-aos="zoom-in">
+                    <div class="about-text">
+                        <h2>A Fusão que o Mercado Exige</h2>
+                        <p>Na <strong>LexSec</strong>, não enxergamos a segurança apenas como um firewall ou apenas como uma cláusula contratual. Somos a convergência necessária entre a Engenharia de Sistemas e a Ciência Jurídica.</p>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span>24h</span>
+                            <small>Prontidão Digital</small>
+                        </div>
+                        <div class="stat-item">
+                            <span>100%</span>
+                            <small>Legal Compliance</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec" style="height: 30px; opacity: 0.8;">
-            <div class="footer-links">
-                <a href="privacy.html">Política de Privacidade</a>
+        <div class="container footer-content">
+            <div class="footer-info">
+                <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec">
+                <p>Protegendo o presente, garantindo o futuro digital da sua empresa.</p>
+            </div>
+            <div class="footer-nav">
+                <h4>Empresa</h4>
+                <a href="privacy.html">Privacidade</a>
                 <a href="terms.html">Termos de Uso</a>
             </div>
-            <p class="copyright">&copy; 2026 LexSec. Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LexSec. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <div class="modal-overlay" id="contact-modal">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
+            <button class="close-modal" id="close-modal"><i data-lucide="x"></i></button>
             
-            <div id="step-input">
-                <h3 class="modal-title">Fale com a LexSec</h3>
+            <div id="step-input" class="modal-step">
+                <h3 class="modal-title">Consultoria LexSec</h3>
+                <p class="modal-subtitle">Preencha os dados para iniciarmos o seu protocolo.</p>
                 <form id="contact-form">
                     <div class="form-group">
-                        <label for="name">Nome Completo *</label>
-                        <input type="text" id="name" name="name" class="form-input" required placeholder="Seu nome">
+                        <label>Nome Completo</label>
+                        <input type="text" id="name" class="form-input" required placeholder="Ex: Matheus Silva">
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail Corporativo</label>
+                        <input type="email" id="email" class="form-input" required placeholder="seu@empresa.com">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp / Telefone</label>
+                        <input type="tel" id="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Breve Descrição</label>
+                        <textarea id="message" class="form-input" rows="2" required placeholder="Como podemos ajudar sua infraestrutura?"></textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="email">E-mail Corporativo *</label>
-                        <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="phone">Telefone / WhatsApp *</label>
-                        <input type="tel" id="phone" name="phone" class="form-input" required placeholder="(XX) 9XXXX-XXXX">
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="message">Como podemos ajudar? *</label>
-                        <textarea id="message" name="message" class="form-input" rows="3" required placeholder="Descreva brevemente sua necessidade..."></textarea>
-                    </div>
-    
-                    <div class="divider"></div>
-                    <h4 class="sub-title">Agendar Reunião (Opcional)</h4>
-    
+                    <div class="divider"><span>Agendamento</span></div>
+                    
                     <div class="row-inputs">
                         <div class="form-group half">
-                            <label for="schedule-date">Data (Mín. 24h)</label>
-                            <input type="text" id="schedule-date" name="schedule_date" class="form-input" placeholder="Clique para escolher..." readonly style="cursor: pointer;">
-                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">Apenas dias úteis.</small>
+                            <label>Data Escolhida</label>
+                            <input type="text" id="schedule-date" class="form-input" placeholder="Selecione..." readonly>
                         </div>
                         <div class="form-group half">
-                            <label for="schedule-time">Horário (Duração 1h)</label>
-                            <select id="schedule-time" name="schedule_time" class="form-input">
-                                <option value="" selected disabled>Escolha a data primeiro</option>
+                            <label>Horário</label>
+                            <select id="schedule-time" class="form-input">
+                                <option value="" disabled selected>Data primeiro...</option>
                                 <option value="08:00">08:00</option>
                                 <option value="09:00">09:00</option>
                                 <option value="10:00">10:00</option>
@@ -147,50 +171,39 @@
                                 <option value="16:00">16:00</option>
                                 <option value="17:00">17:00</option>
                             </select>
-                            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px;">08h-11h ou 14h-17h.</small>
                         </div>
                     </div>
-    
-                    <button type="submit" class="btn-primary full-width">Revisar Dados</button>
+                    <button type="submit" class="btn-primary full-width">Revisar Solicitação</button>
                 </form>
             </div>
 
-            <div id="step-confirm" style="display: none;">
-                <h3 class="modal-title">Confirme seus Dados</h3>
-                <p class="step-desc">Verifique se as informações abaixo estão corretas.</p>
-                
+            <div id="step-confirm" class="modal-step" style="display: none;">
+                <h3 class="modal-title">Confirmar Protocolo</h3>
                 <div class="review-box">
-                    <div class="review-item"><strong>Nome:</strong> <span id="review-name"></span></div>
-                    <div class="review-item"><strong>E-mail:</strong> <span id="review-email"></span></div>
-                    <div class="review-item"><strong>Telefone:</strong> <span id="review-phone"></span></div>
-                    <div class="review-item"><strong>Mensagem:</strong> <br><span id="review-message" style="font-style: italic; color: var(--text-muted);"></span></div>
-                    <div class="divider-small"></div>
-                    <div class="review-item"><strong>Data:</strong> <span id="review-date" class="highlight-text"></span></div>
-                    <div class="review-item"><strong>Horário:</strong> <span id="review-time" class="highlight-text"></span></div>
+                    <p><strong>Nome:</strong> <span id="review-name"></span></p>
+                    <p><strong>E-mail:</strong> <span id="review-email"></span></p>
+                    <p><strong>Data:</strong> <span id="review-date" class="highlight"></span></p>
+                    <p><strong>Horário:</strong> <span id="review-time" class="highlight"></span></p>
                 </div>
-
                 <div class="action-buttons">
                     <button id="btn-edit" class="btn-secondary">Editar</button>
-                    <button id="btn-confirm-send" class="btn-primary">Confirmar</button>
+                    <button id="btn-confirm-send" class="btn-primary">Confirmar e Enviar</button>
                 </div>
             </div>
 
-            <div id="step-success" style="display: none; text-align: center; padding: 20px 0;">
-                <div class="success-icon" style="color: var(--cyan); display: flex; justify-content: center;"><i data-lucide="check-circle" style="width: 64px; height: 64px;"></i></div>
-                <h3 class="modal-title" style="color: var(--cyan);">Solicitação Recebida!</h3>
-                <p style="color: var(--white); margin-bottom: 20px;">Seus dados foram enviados com sucesso.</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Em instantes, um de nossos consultores entrará em contato.</p>
-                <button id="btn-close-final" class="btn-primary" style="margin-top: 30px;">Fechar</button>
+            <div id="step-success" class="modal-step" style="display: none; text-align: center;">
+                <div class="success-icon"><i data-lucide="check-circle-2"></i></div>
+                <h3>Solicitação Enviada</h3>
+                <p>Seu protocolo foi gerado. Fique atento ao seu WhatsApp, entraremos em contato em breve.</p>
+                <button id="btn-close-final" class="btn-primary" style="margin-top: 20px;">Finalizar</button>
             </div>
-
         </div>
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/pt.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/pt.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
