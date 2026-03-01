@@ -3,37 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LexSec | Segurança de TI e Compliance Digital</title>
+    <title>LexSec | Segurança de TI, Compliance e IA</title>
     
     <link rel="icon" type="image/png" href="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
     <link rel="stylesheet" id="fp-theme" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header id="main-header">
         <nav class="container">
-            <a href="index.html" class="logo">
-                <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="Logo LexSec">
-                <span class="logo-text">LexSec</span>
-            </a>
-            <ul class="nav-links" id="nav-menu">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#services">Serviços</a></li>
-                <li><a href="#about-brief">Sobre</a></li>
-                <li>
-                    <button id="theme-toggle" class="btn-icon" aria-label="Alternar Tema">
+            <div class="nav-left">
+                <a href="index.html" class="logo hover-jump">
+                    <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="Logo LexSec">
+                    <span class="logo-text">LexSec</span>
+                </a>
+            </div>
+
+            <div class="nav-menu-wrapper" id="nav-menu">
+                <ul class="nav-center">
+                    <li><a href="#hero" class="hover-jump">Home</a></li>
+                    <li><a href="#services" class="hover-jump">Serviços</a></li>
+                    <li><a href="#about-brief" class="hover-jump">Sobre</a></li>
+                </ul>
+
+                <div class="nav-right">
+                    <button id="theme-toggle" class="btn-icon hover-jump" aria-label="Alternar Tema">
                         <i data-lucide="moon" id="theme-icon"></i>
                     </button>
-                </li>
-                <li><button class="btn-primary open-modal-btn">Agendar Consultoria</button></li>
-            </ul>
+                    <button class="btn-primary open-modal-btn hover-jump">Agendar Consultoria</button>
+                </div>
+            </div>
+
             <div class="mobile-menu-btn" id="menu-toggle">
                 <span></span><span></span><span></span>
             </div>
@@ -44,10 +48,10 @@
         <section id="hero">
             <div class="container">
                 <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
-                    <span class="badge">Infraestrutura TI & Direito Digital</span>
+                    <span class="badge">Tecnologia, IA & Direito Digital</span>
                     <h1>A conformidade legal que sua <span class="accent-text">Tecnologia exige.</span></h1>
-                    <p>Blindamos o seu negócio unindo segurança avançada de redes e servidores com a adequação necessária às legislações de proteção de dados.</p>
-                    <button class="btn-primary open-modal-btn">Iniciar Diagnóstico</button>
+                    <p>Blindamos o seu negócio unindo segurança de infraestrutura, automação inteligente e a adequação necessária às legislações modernas.</p>
+                    <button class="btn-primary open-modal-btn hover-jump" style="padding: 15px 30px; font-size: 1rem;">Iniciar Diagnóstico</button>
                 </div>
             </div>
         </section>
@@ -56,25 +60,35 @@
             <div class="container">
                 <h2 class="section-title" data-aos="fade-up">Nossos Pilares de Atuação</h2>
                 <div class="services-grid">
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="100">
                         <i data-lucide="shield-check" class="card-icon"></i>
                         <h3>Segurança de Infraestrutura</h3>
-                        <p>Proteção de redes, configuração de firewalls e defesa ativa contra intrusões cibernéticas.</p>
+                        <p>Proteção de redes, firewalls e defesa ativa contra intrusões cibernéticas para empresas e órgãos públicos.</p>
                     </div>
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="200">
                         <i data-lucide="scale" class="card-icon"></i>
                         <h3>DPO as a Service</h3>
-                        <p>Gestão técnica e documental de privacidade de dados para total conformidade com a LGPD.</p>
+                        <p>Gestão técnica e documental de privacidade de dados para total conformidade com a LGPD e normativas.</p>
                     </div>
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="300">
+                        <i data-lucide="bot" class="card-icon"></i>
+                        <h3>Automação com IA</h3>
+                        <p>Implementação de Inteligência Artificial para otimizar processos repetitivos, acelerando a produtividade das equipes.</p>
+                    </div>
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="400">
+                        <i data-lucide="code" class="card-icon"></i>
+                        <h3>Desenvolvimento de Software</h3>
+                        <p>Criação de sistemas e aplicações sob medida para o setor público e iniciativa privada, focados em alta performance.</p>
+                    </div>
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="500">
                         <i data-lucide="server-cog" class="card-icon"></i>
                         <h3>Manutenção de TI</h3>
-                        <p>Suporte técnico preventivo e reativo para garantir a alta disponibilidade da sua operação.</p>
+                        <p>Suporte técnico preventivo e reativo para garantir a alta disponibilidade da sua operação diária.</p>
                     </div>
-                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card hover-jump" data-aos="fade-up" data-aos-delay="600">
                         <i data-lucide="file-text" class="card-icon"></i>
                         <h3>Consultoria em Compliance</h3>
-                        <p>Assessoria técnica voltada às normas do Direito Digital e melhores práticas do mercado.</p>
+                        <p>Assessoria técnica voltada às normas do Direito Digital e melhores práticas governamentais e corporativas.</p>
                     </div>
                 </div>
             </div>
@@ -84,7 +98,7 @@
             <div class="container" data-aos="zoom-in" data-aos-duration="800">
                 <div class="about-glass">
                     <h2>A Intersecção entre a Engenharia e a Lei</h2>
-                    <p>A LexSec nasceu para suprir uma lacuna moderna: a tecnologia não pode operar às margens da lei. Nossa atuação alia <strong>sólida experiência em infraestrutura de TI</strong> a um <strong>estudo contínuo e aprofundado do Direito</strong>, garantindo que o seu ecossistema digital seja tecnicamente resiliente e juridicamente embasado.</p>
+                    <p>A LexSec nasceu para suprir uma lacuna moderna: a tecnologia não pode operar às margens da lei. Nossa atuação alia <strong>sólida experiência em infraestrutura de TI e IA</strong> a um <strong>estudo contínuo do Direito</strong>, garantindo que seu ecossistema digital seja tecnicamente avançado e juridicamente embasado.</p>
                 </div>
             </div>
         </section>
@@ -94,11 +108,11 @@
         <div class="container footer-grid">
             <div class="footer-brand">
                 <img src="https://s3storage.lexsec.shop/logos/Logo%20LexSec_Logo.png" alt="LexSec">
-                <p>Protegendo o presente, garantindo o futuro.</p>
+                <p>Protegendo o presente, desenvolvendo o futuro.</p>
             </div>
             <ul class="footer-nav">
-                <li><a href="privacy.html">Política de Privacidade</a></li>
-                <li><a href="terms.html">Termos de Uso</a></li>
+                <li><a href="privacy.html" class="hover-jump">Política de Privacidade</a></li>
+                <li><a href="terms.html" class="hover-jump">Termos de Uso</a></li>
             </ul>
         </div>
         <div class="container text-center">
@@ -108,7 +122,7 @@
 
     <div class="modal-overlay" id="contact-modal">
         <div class="modal-content">
-            <button class="close-modal" id="close-modal"><i data-lucide="x"></i></button>
+            <button class="close-modal hover-jump" id="close-modal"><i data-lucide="x"></i></button>
             
             <div id="step-input" class="modal-step">
                 <h3 class="modal-title">Agendar Consultoria</h3>
@@ -127,7 +141,7 @@
                     </div>
                     <div class="form-group">
                         <label>Breve Descrição *</label>
-                        <textarea id="message" required class="form-input" rows="2" placeholder="Como podemos ajudar?"></textarea>
+                        <textarea id="message" required class="form-input" rows="2" placeholder="O que você precisa otimizar ou proteger?"></textarea>
                     </div>
                     
                     <div class="divider"><span>Data da Reunião</span></div>
@@ -152,7 +166,7 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn-primary full-width">Revisar Informações</button>
+                    <button type="submit" class="btn-primary full-width hover-jump">Revisar Informações</button>
                 </form>
             </div>
 
@@ -165,16 +179,16 @@
                     <p><strong>Horário:</strong> <span id="review-time"></span></p>
                 </div>
                 <div class="action-buttons">
-                    <button id="btn-edit" class="btn-secondary">Voltar</button>
-                    <button id="btn-confirm-send" class="btn-primary">Confirmar e Enviar</button>
+                    <button id="btn-edit" class="btn-secondary hover-jump">Voltar</button>
+                    <button id="btn-confirm-send" class="btn-primary hover-jump">Confirmar e Enviar</button>
                 </div>
             </div>
 
             <div id="step-success" class="modal-step text-center" style="display: none;">
                 <i data-lucide="check-circle" class="success-icon"></i>
                 <h3 class="modal-title text-cyan">Solicitação Recebida!</h3>
-                <p style="margin-bottom: 20px;">Nossa equipe de atendimento fará o contato via WhatsApp em breve.</p>
-                <button id="btn-close-final" class="btn-primary">Fechar Janela</button>
+                <p style="margin-bottom: 20px;">Nossa equipe fará o contato via WhatsApp em breve para alinharmos os detalhes.</p>
+                <button id="btn-close-final" class="btn-primary hover-jump">Fechar Janela</button>
             </div>
         </div>
     </div>
@@ -183,7 +197,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/pt.js"></script>
-    
     <script src="script.js"></script>
 </body>
 </html>
