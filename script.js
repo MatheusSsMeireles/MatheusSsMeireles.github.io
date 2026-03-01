@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         htmlElement.setAttribute('data-theme', theme);
         updateIcon(theme);
         
-        // Atualiza o tema do Calendário Flatpickr
         if (fpThemeLink) {
             fpThemeLink.href = theme === 'light' 
                 ? "https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/material_blue.css"
@@ -29,18 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Lê a preferência do sistema operacional do cliente
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Verifica se já havia uma escolha salva, senão, usa a do sistema
     const savedTheme = localStorage.getItem('lexsec-theme');
+    
     if (savedTheme) {
         applyTheme(savedTheme);
     } else {
         applyTheme(prefersDark.matches ? 'dark' : 'light');
     }
 
-    // Clique no botão para alternar
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
@@ -50,21 +46,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Escuta se o cliente mudar o tema do celular/PC em tempo real
     prefersDark.addEventListener('change', (e) => {
         if (!localStorage.getItem('lexsec-theme')) {
             applyTheme(e.matches ? 'dark' : 'light');
         }
     });
 
-    // --- 3. CONTROLE DE SCROLL DO HEADER ---
+    // --- 3. SCROLL DO HEADER E MENU MOBILE ---
     const header = document.getElementById('main-header');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
     });
 
-    // --- 4. LÓGICA DO CALENDÁRIO FLATPICKR (BLOQUEIO 24H) ---
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        menuToggle.classList.toggle('open');
+    });
+    
+    document.querySelectorAll('.nav-center a, .nav-right button').forEach(link => {
+        link.addEventListener('click', () => {
+            if(window.innerWidth <= 900) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('open');
+            }
+        });
+    });
+
+    // --- 4. CALENDÁRIO FLATPICKR (BLOQUEIO 24H E FDS) ---
     const dateInput = document.getElementById('schedule-date');
     const timeSelect = document.getElementById('schedule-time');
 
@@ -72,18 +84,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const minDateLimit = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-        // Pula fins de semana na data mínima inicial
         if (minDateLimit.getDay() === 6) minDateLimit.setDate(minDateLimit.getDate() + 2);
         if (minDateLimit.getDay() === 0) minDateLimit.setDate(minDateLimit.getDate() + 1);
 
         flatpickr(dateInput, {
             locale: "pt",
-            dateFormat: "d/m/Y", // Formato brasileiro
-            minDate: minDateLimit, // Bloqueia fisicamente as 24h anteriores
+            dateFormat: "d/m/Y", 
+            minDate: minDateLimit, 
             disable: [
-                function(date) { return (date.getDay() === 0 || date.getDay() === 6); } // FDS off
+                function(date) { return (date.getDay() === 0 || date.getDay() === 6); }
             ],
-            onChange: function(selectedDates, dateStr) {
+            onChange: function(selectedDates) {
                 if(selectedDates.length === 0) return;
                 const selected = selectedDates[0];
                 const currentNow = new Date();
@@ -109,44 +120,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. LÓGICA DO MODAL (MULTI-STEP) E WEBHOOK ---
+    // --- 5. LÓGICA DO MODAL MULTI-STEP ---
     const modal = document.getElementById('contact-modal');
     const form = document.getElementById('contact-form');
     
     const steps = { input: 'step-input', confirm: 'step-confirm', success: 'step-success' };
 
     const showStep = (id) => {
-        Object.values(steps).forEach(s => document.getElementById(s).style.display = 'none');
-        document.getElementById(id).style.display = 'block';
+        Object.values(steps).forEach(s => {
+            const el = document.getElementById(s);
+            if(el) el.style.display = 'none';
+        });
+        const target = document.getElementById(id);
+        if(target) target.style.display = 'block';
     };
 
+    // Abertura do Modal garantida para TODOS os botões com a classe .open-modal-btn
     document.querySelectorAll('.open-modal-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            if(form) form.reset();
-            if(timeSelect) timeSelect.value = "";
-            showStep(steps.input);
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                if(form) form.reset();
+                if(timeSelect) timeSelect.value = "";
+                showStep(steps.input);
+            }
         });
     });
 
     const closeModal = () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        if(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     };
 
-    document.getElementById('close-modal').addEventListener('click', closeModal);
-    document.getElementById('btn-close-final').addEventListener('click', closeModal);
+    const closeModalBtn = document.getElementById('close-modal');
+    const closeFinalBtn = document.getElementById('btn-close-final');
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if(closeFinalBtn) closeFinalBtn.addEventListener('click', closeModal);
+    
+    if(modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
 
     // Passo 1 -> Passo 2 (Revisão)
     if(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const date = dateInput.value;
-            const time = timeSelect.value;
+            const date = dateInput ? dateInput.value : '';
+            const time = timeSelect ? timeSelect.value : '';
 
             if(!date || !time) {
-                alert("Por favor, preencha a Data e o Horário do agendamento.");
+                alert("Por favor, preencha a Data e o Horário da consultoria.");
                 return;
             }
 
@@ -159,43 +188,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.getElementById('btn-edit').addEventListener('click', () => showStep(steps.input));
+    const btnEdit = document.getElementById('btn-edit');
+    if(btnEdit) btnEdit.addEventListener('click', () => showStep(steps.input));
 
     // Passo 2 -> Passo 3 (Envio Webhook POST)
-    document.getElementById('btn-confirm-send').addEventListener('click', async () => {
-        const btn = document.getElementById('btn-confirm-send');
-        const originalText = btn.textContent;
-        btn.disabled = true;
-        btn.textContent = "Enviando...";
-        document.getElementById('btn-edit').disabled = true;
+    const btnConfirmSend = document.getElementById('btn-confirm-send');
+    if(btnConfirmSend) {
+        btnConfirmSend.addEventListener('click', async () => {
+            const originalText = btnConfirmSend.textContent;
+            btnConfirmSend.disabled = true;
+            btnConfirmSend.textContent = "Enviando...";
+            if(btnEdit) btnEdit.disabled = true;
 
-        const payload = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            description: document.getElementById('message').value,
-            schedule_date: dateInput.value,
-            schedule_time: timeSelect.value,
-            timestamp: new Date().toISOString()
-        };
+            const payload = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                description: document.getElementById('message').value,
+                schedule_date: dateInput.value,
+                schedule_time: timeSelect.value,
+                timestamp: new Date().toISOString()
+            };
 
-        try {
-            const response = await fetch('https://webnflow.lexsec.shop/webhook/site', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            try {
+                const response = await fetch('https://webnflow.lexsec.shop/webhook/site', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            if(response.ok) {
-                showStep(steps.success);
-            } else {
-                throw new Error("Erro de resposta do servidor");
+                if(response.ok) {
+                    showStep(steps.success);
+                } else {
+                    throw new Error("Erro de servidor");
+                }
+            } catch (e) {
+                alert("Não foi possível enviar. Verifique a conexão com a internet.");
+                btnConfirmSend.disabled = false;
+                btnConfirmSend.textContent = originalText;
+                if(btnEdit) btnEdit.disabled = false;
             }
-        } catch (e) {
-            alert("Não foi possível enviar a solicitação. Verifique a conexão.");
-            btn.disabled = false;
-            btn.textContent = originalText;
-            document.getElementById('btn-edit').disabled = false;
-        }
-    });
+        });
+    }
 });
